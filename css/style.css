@@ -1,0 +1,28 @@
+body{
+	position: relative;
+}
+.mr5{
+	margin-right:3px;
+}
+.footer{
+	position: absolute;
+	text-align: center;
+    width: 100%;
+    color: #999;
+}
+.footer .footer-inner span{
+	margin-right: 5px;
+}
+.footer a{
+	margin: 0 2px;
+}
+.footer .powered-by{
+	margin-right: 10px;
+}
+.footer .powered-by:after{
+	content: '|';
+	padding-left: 10px;
+}
+.footer .powered-by, .footer .theme-info{
+	display: inline-block;
+}
