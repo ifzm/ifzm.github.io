@@ -1,9 +1,23 @@
 body{
 	position: relative;
 }
-.mr5{
+.mr3{
 	margin-right:3px;
 }
+.post-time >span{
+	margin-right: 5px;
+}
+.post-time .fa, .post-time a, .post-time .visitors >span{
+	margin-left: 5px;
+}
+.post-time .fa-calendar{
+	margin-left: 0;
+	margin-right: 5px;
+}
+.post-time .fa-tags, .post-time .fa-eye{
+	margin-left: 10px;
+}
+
 .footer{
 	position: absolute;
 	text-align: center;
