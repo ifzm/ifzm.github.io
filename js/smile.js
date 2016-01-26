@@ -1,38 +1,8 @@
-(function() {
-    var //判断ie 
-        ie = !!(window.attachEvent && !window.opera),
-        //判断webkit内核
-        wk = /webkit\/(\d+)/i.test(navigator.userAgent) && (RegExp.$1 < 525),
-        fn = [],
-        d = document,
-        run = function() {
-            for (var i = 0; i < fn.length; i++)
-                fn[i]()
-        }
-    d.ready = function(f) {
-        if (!ie && !wk && d.addEventListener) // addEventListener mozilla
-            return d.addEventListener('DOMContentLoaded', f, false)
-        if (fn.push(f) > 1) return;
-        if (ie)(function() {
-            try {
-                d.documentElement.doScroll('left')
-                run();
-            } catch (err) {
-                setTimeout(arguments.callee, 0)
-            }
-        })()
-        else if (wk)
-            var t = setInterval(function() {
-                if (/^(loaded|complete)$/.test(d.readyState))
-                    clearInterval(t), run()
-            }, 0)
-    }
-})()
 // 查询显示当前页所有文章的浏览数
 function showAll(Counter) {
     var query = new AV.Query(Counter),
         entries = [],
-        $visitors = document.querySelectorAll(".visitors")
+        $visitors = $(".visitors")
     len = $visitors.length
 
     for (var i = 0; i < len; i++) {
@@ -42,7 +12,7 @@ function showAll(Counter) {
     query.find()
         .done(function(results) {
             if (results.length === 0) {
-                document.querySelectorAll(".visitors >span").innerHTML = "0"
+                $(".visitors >span").html("0")
                 return;
             }
 
@@ -60,9 +30,9 @@ function showAll(Counter) {
 // 添加一次文章的浏览数
 function addCount(Counter) {
     var query = new AV.Query(Counter),
-        $visitors = document.querySelectorAll(".visitors")[0],
-        url = $visitors.getAttribute('id').trim(),
-        title = $visitors.getAttribute('data-title').trim()
+        $visitors = $(".visitors"),
+        url = $visitors.attr('id').trim(),
+        title = $visitors.data('title').trim()
 
     query.equalTo("url", url)
     query.find({
@@ -103,8 +73,13 @@ function addCount(Counter) {
         }
     })
 }
-document.ready(function() {
+$(function() {
+    if ($.lazyload === true)
+        $("img.lazy").lazyload({
+            data_attribute: "src",
+            effect: "fadeIn"
+        })
     // initialize
     var Counter = AV.Object.extend("Counter")
-    document.querySelectorAll('.visitors').length === 1 ? addCount(Counter) : showAll(Counter)
+    $('.visitors').length === 1 ? addCount(Counter) : showAll(Counter)
 })
