@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.ifzm.cn/"/>
-  <updated>2016-01-26T05:48:07.984Z</updated>
+  <updated>2016-01-28T08:27:53.599Z</updated>
   <id>http://blog.ifzm.cn/</id>
   
   <author>
@@ -13,6 +13,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Show]]></title>
+    <link href="http://blog.ifzm.cn/2016/01/28/Show/"/>
+    <id>http://blog.ifzm.cn/2016/01/28/Show/</id>
+    <published>2016-01-28T08:27:53.599Z</published>
+    <updated>2016-01-28T08:27:53.599Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>多图预警 …</p>
+</blockquote>
+<a id="more"></a>
+<p><img src="http://7xmxp1.com1.z0.glb.clouddn.com/6575051212208095.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/680828600805514419.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/603567515373989377.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/656749354843043792.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/647792285734977963.jpg" alt=""></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>多图预警 …</p>
+</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Apollo Theme]]></title>
+    <link href="http://blog.ifzm.cn/2016/01/28/Apollo%20Theme/"/>
+    <id>http://blog.ifzm.cn/2016/01/28/Apollo Theme/</id>
+    <published>2016-01-28T08:21:29.001Z</published>
+    <updated>2016-01-28T08:21:28.958Z</updated>
+    <content type="html"><![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"></p>
+<a id="more"></a>
+<h2 id="u8BA1_u5212_282016-3__u4E4B_u524D_29"><a href="#u8BA1_u5212_282016-3__u4E4B_u524D_29" class="headerlink" title="计划(2016.3 之前)"></a>计划(2016.3 之前)</h2><ul>
+<li>归档页面</li>
+<li>文章目录组件（toc）</li>
+<li>SEO</li>
+</ul>
+<p>ps. 请不要提交合并请求，fork 之后做任何你想做的吧。</p>
+<h2 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo init B<span class="built_in">log</span> </span><br><span class="line"><span class="built_in">cd</span> B<span class="built_in">log</span> </span><br><span class="line">npm install</span><br><span class="line">npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/pinggod/hexo-theme-apollo.git themes/apollo</span><br></pre></td></tr></table></figure>
+<h2 id="u542F_u7528"><a href="#u542F_u7528" class="headerlink" title="启用"></a>启用</h2><p>修改 <code>_config.yml</code> 的 <code>theme</code> 配置项为 <code>apollo</code>:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: apollo</span><br></pre></td></tr></table></figure>
+<h2 id="u66F4_u65B0"><a href="#u66F4_u65B0" class="headerlink" title="更新"></a>更新</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> themes/apollo </span><br><span class="line">git pull</span><br></pre></td></tr></table></figure>
+<h2 id="u56FE_u4F8B"><a href="#u56FE_u4F8B" class="headerlink" title="图例"></a>图例</h2><p>因为实际写博的过程中会用到各种类型的图例，比如流程图、序列图或者只是简单的模拟图，所以目前用的工具是 Microsoft PowerPoint。实际上，有一个工具可以满足对图例的需求，这个工具是一个在线制图网站<a href="https://www.processon.com" target="_blank" rel="external">ProcessOn</a>，唯一遗憾的是不可以自定义配色，所以我只能使用 PPT 创建与网站配色相适应的图例。</p>
+<h2 id="u81EA_u5B9A_u4E49_u5757"><a href="#u81EA_u5B9A_u4E49_u5757" class="headerlink" title="自定义块"></a>自定义块</h2><p>Markdown 生成的标签暂时比较简单，所以提供了一些 HTML 标签来标识特殊样式，详见 <a href="https://github.com/pinggod/hexo-theme-apollo/blob/master/doc/custom-blocks.md" target="_blank" rel="external">custrom-blocks</a>。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"></p>]]>
+    
+    </summary>
+    
+      <category term="Theme" scheme="http://blog.ifzm.cn/tags/Theme/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Hello World]]></title>
@@ -39,45 +92,6 @@
       <category term="Hexo" scheme="http://blog.ifzm.cn/tags/Hexo/"/>
     
       <category term="NodeJS" scheme="http://blog.ifzm.cn/tags/NodeJS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[test]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/22/test/"/>
-    <id>http://blog.ifzm.cn/2016/01/22/test/</id>
-    <published>2016-01-22T14:59:38.000Z</published>
-    <updated>2016-01-22T14:59:38.311Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Readme]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/22/README/"/>
-    <id>http://blog.ifzm.cn/2016/01/22/README/</id>
-    <published>2016-01-22T09:19:52.410Z</published>
-    <updated>2016-01-22T09:19:52.353Z</updated>
-    <content type="html"><![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"></p>
-<h2 id="u8BA1_u5212_282016-3__u4E4B_u524D_29"><a href="#u8BA1_u5212_282016-3__u4E4B_u524D_29" class="headerlink" title="计划(2016.3 之前)"></a>计划(2016.3 之前)</h2><ul>
-<li>归档页面</li>
-<li>文章目录组件（toc）</li>
-<li>SEO</li>
-</ul>
-<p>ps. 请不要提交合并请求，fork 之后做任何你想做的吧。</p>
-<h2 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo init B<span class="built_in">log</span> </span><br><span class="line"><span class="built_in">cd</span> B<span class="built_in">log</span> </span><br><span class="line">npm install</span><br><span class="line">npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/pinggod/hexo-theme-apollo.git themes/apollo</span><br></pre></td></tr></table></figure>
-<h2 id="u542F_u7528"><a href="#u542F_u7528" class="headerlink" title="启用"></a>启用</h2><p>修改 <code>_config.yml</code> 的 <code>theme</code> 配置项为 <code>apollo</code>:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: apollo</span><br></pre></td></tr></table></figure>
-<h2 id="u66F4_u65B0"><a href="#u66F4_u65B0" class="headerlink" title="更新"></a>更新</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> themes/apollo </span><br><span class="line">git pull</span><br></pre></td></tr></table></figure>
-<h2 id="u56FE_u4F8B"><a href="#u56FE_u4F8B" class="headerlink" title="图例"></a>图例</h2><p>因为实际写博的过程中会用到各种类型的图例，比如流程图、序列图或者只是简单的模拟图，所以目前用的工具是 Microsoft PowerPoint。实际上，有一个工具可以满足对图例的需求，这个工具是一个在线制图网站<a href="https://www.processon.com" target="_blank" rel="external">ProcessOn</a>，唯一遗憾的是不可以自定义配色，所以我只能使用 PPT 创建与网站配色相适应的图例。</p>
-<h2 id="u81EA_u5B9A_u4E49_u5757"><a href="#u81EA_u5B9A_u4E49_u5757" class="headerlink" title="自定义块"></a>自定义块</h2><p>Markdown 生成的标签暂时比较简单，所以提供了一些 HTML 标签来标识特殊样式，详见 <a href="https://github.com/pinggod/hexo-theme-apollo/blob/master/doc/custom-blocks.md" target="_blank" rel="external">custrom-blocks</a>。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"><]]>
-    </summary>
     
   </entry>
   

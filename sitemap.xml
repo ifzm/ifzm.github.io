@@ -2,18 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.ifzm.cn/2016/01/28/Show/</loc>
+    <lastmod>2016-01-28T08:27:53.599Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.ifzm.cn/2016/01/28/Apollo%20Theme/</loc>
+    <lastmod>2016-01-28T08:21:28.958Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.ifzm.cn/2016/01/26/hello-world/</loc>
     <lastmod>2016-01-26T05:48:07.984Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.ifzm.cn/2016/01/22/test/</loc>
-    <lastmod>2016-01-22T14:59:38.311Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.ifzm.cn/2016/01/22/README/</loc>
-    <lastmod>2016-01-22T09:19:52.353Z</lastmod>
   </url>
   
 </urlset>
