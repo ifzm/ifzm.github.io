@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.ifzm.cn/"/>
-  <updated>2016-01-28T08:27:53.599Z</updated>
+  <updated>2016-01-28T09:36:13.094Z</updated>
   <id>http://blog.ifzm.cn/</id>
   
   <author>
@@ -15,25 +15,43 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Show]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/28/Show/"/>
-    <id>http://blog.ifzm.cn/2016/01/28/Show/</id>
-    <published>2016-01-28T08:27:53.599Z</published>
-    <updated>2016-01-28T08:27:53.599Z</updated>
+    <title><![CDATA[First article]]></title>
+    <link href="http://blog.ifzm.cn/2016/01/28/First%20article/"/>
+    <id>http://blog.ifzm.cn/2016/01/28/First article/</id>
+    <published>2016-01-28T09:36:13.094Z</published>
+    <updated>2016-01-28T09:36:13.094Z</updated>
     <content type="html"><![CDATA[<blockquote>
-<p>多图预警 …</p>
+<p>第一次使用 MarkDown 写 Blog， 有点紧张…<br>虽然没人看，可毕竟一血啊 ( ¯ □ ¯ ) </p>
 </blockquote>
 <a id="more"></a>
-<p><img src="http://7xmxp1.com1.z0.glb.clouddn.com/6575051212208095.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/680828600805514419.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/603567515373989377.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/656749354843043792.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/647792285734977963.jpg" alt=""></p>
+<p>一直很羡慕有自己博客的 Prawns。</p>
+<p>Code 两年了，喜欢折腾，这次自己捣鼓了个 Blog。</p>
+<p>以前也想过自己做个 BBS，Blog 什么的，由于工作原因（主要是懒），计划的事一直推后推后再推后，致使这么长时间感觉一无所获。</p>
+<p>这次制作这个 Blog，主要想认真做点事情，平时太安逸让自己变得太懒了，其次就是感觉脑袋记的东西不能长时间保存，也许哪天就忘了，做个 Blog 记录下来，以后也能翻一翻，总之对自己好处多多吧。</p>
+<p>下面介绍一下这个 Blog 的搭建流程吧：</p>
+<ol>
+<li>安装 <a href="https://nodejs.org/en/" title="https://nodejs.org/en/" target="_blank" rel="external">NodeJS</a>，做前端开发应该再熟悉不过了吧 (^_^)</li>
+<li>使用以下命令安装 <a href="https://hexo.io" title="https://hexo.io" target="_blank" rel="external">Hexo</a> 并创建 Hello World ：</li>
+<li><code>npm install hexo-cli -g</code></li>
+<li><code>hexo init blog</code></li>
+<li><code>cd blog</code></li>
+<li><code>npm install</code></li>
+<li><code>hexo server</code></li>
+<li>执行完上述命令，应该可以看到命令行的提示，直接访问 <a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 就可以看到 Demo 了。</li>
+</ol>
+<p>之后如果觉得主题风格不喜欢，可以访问 <a href="https://hexo.io/themes/" title="https://hexo.io/themes/" target="_blank" rel="external">Hexo Theme</a> 挑选喜欢的主题，按照提示安装并修改 <code>_config.yml</code>等等系列操作，就可改造成完全符合自己口味的 Blog 啦。</p>
+<p>如果您觉得作者这款主题符合您口味的话，由于暂时还没有整理出来（没有提交到 <a href="https://github.com/" title="https://github.com/" target="_blank" rel="external">GitHub</a> ）， 可以先关注我的 <a href="https://github.com/ifzm" title="https://github.com/ifzm" target="_blank" rel="external">GitHub</a>，<a href="http://weibo.com/smileMessenger" title="http://weibo.com/smileMessenger" target="_blank" rel="external">Microblog</a>，<a href="https://twitter.com/Smile_Fzm" title="https://twitter.com/Smile_Fzm" target="_blank" rel="external">Twitter</a> </p>
+<p>本来菜鸟一枚，写的不好勿喷哈 (^_^)</p>
+<p>今后会持续更新各类文章，望支持。。。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
-<p>多图预警 …</p>
+<p>第一次使用 MarkDown 写 Blog， 有点紧张…<br>虽然没人看，可毕竟一血啊 ( ¯ □ ¯ ) </p>
 </blockquote>]]>
     
     </summary>
     
-      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
+      <category term="First" scheme="http://blog.ifzm.cn/tags/First/"/>
     
   </entry>
   
@@ -41,16 +59,10 @@
     <title><![CDATA[Apollo Theme]]></title>
     <link href="http://blog.ifzm.cn/2016/01/28/Apollo%20Theme/"/>
     <id>http://blog.ifzm.cn/2016/01/28/Apollo Theme/</id>
-    <published>2016-01-28T08:21:29.001Z</published>
-    <updated>2016-01-28T08:21:28.958Z</updated>
+    <published>2016-01-28T08:49:17.170Z</published>
+    <updated>2016-01-28T08:49:17.138Z</updated>
     <content type="html"><![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"></p>
 <a id="more"></a>
-<h2 id="u8BA1_u5212_282016-3__u4E4B_u524D_29"><a href="#u8BA1_u5212_282016-3__u4E4B_u524D_29" class="headerlink" title="计划(2016.3 之前)"></a>计划(2016.3 之前)</h2><ul>
-<li>归档页面</li>
-<li>文章目录组件（toc）</li>
-<li>SEO</li>
-</ul>
-<p>ps. 请不要提交合并请求，fork 之后做任何你想做的吧。</p>
 <h2 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo init B<span class="built_in">log</span> </span><br><span class="line"><span class="built_in">cd</span> B<span class="built_in">log</span> </span><br><span class="line">npm install</span><br><span class="line">npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/pinggod/hexo-theme-apollo.git themes/apollo</span><br></pre></td></tr></table></figure>
 <h2 id="u542F_u7528"><a href="#u542F_u7528" class="headerlink" title="启用"></a>启用</h2><p>修改 <code>_config.yml</code> 的 <code>theme</code> 配置项为 <code>apollo</code>:</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: apollo</span><br></pre></td></tr></table></figure>
@@ -64,6 +76,23 @@
     </summary>
     
       <category term="Theme" scheme="http://blog.ifzm.cn/tags/Theme/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Show]]></title>
+    <link href="http://blog.ifzm.cn/2016/01/28/Show/"/>
+    <id>http://blog.ifzm.cn/2016/01/28/Show/</id>
+    <published>2016-01-28T08:46:16.807Z</published>
+    <updated>2016-01-28T08:46:16.807Z</updated>
+    <content type="html"><![CDATA[<p><div class="tip"> 多图预警 … </div><br><a id="more"></a><br><img src="http://7xmxp1.com1.z0.glb.clouddn.com/6575051212208095.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/680828600805514419.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/603567515373989377.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/656749354843043792.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/647792285734977963.jpg" alt=""></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><div class="tip"> 多图预警 … </div><br>]]>
+    
+    </summary>
+    
+      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
     
   </entry>
   
