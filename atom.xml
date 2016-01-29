@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.ifzm.cn/"/>
-  <updated>2016-01-28T09:36:13.094Z</updated>
+  <updated>2016-01-29T02:42:58.024Z</updated>
   <id>http://blog.ifzm.cn/</id>
   
   <author>
@@ -15,38 +15,55 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Show]]></title>
+    <link href="http://blog.ifzm.cn/2016/01/29/Show/"/>
+    <id>http://blog.ifzm.cn/2016/01/29/Show/</id>
+    <published>2016-01-29T02:42:58.024Z</published>
+    <updated>2016-01-29T02:42:58.024Z</updated>
+    <content type="html"><![CDATA[<p><div class="tip"> 多图预警 … </div><a id="more"></a><br><img src="http://7xmxp1.com1.z0.glb.clouddn.com/6575051212208095.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/680828600805514419.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/603567515373989377.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/656749354843043792.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/647792285734977963.jpg" alt=""></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><div class="tip"> 多图预警 … </div>]]>
+    
+    </summary>
+    
+      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[First article]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/28/First%20article/"/>
-    <id>http://blog.ifzm.cn/2016/01/28/First article/</id>
-    <published>2016-01-28T09:36:13.094Z</published>
-    <updated>2016-01-28T09:36:13.094Z</updated>
+    <link href="http://blog.ifzm.cn/2016/01/29/first-article/"/>
+    <id>http://blog.ifzm.cn/2016/01/29/first-article/</id>
+    <published>2016-01-29T01:25:46.801Z</published>
+    <updated>2016-01-29T01:25:46.801Z</updated>
     <content type="html"><![CDATA[<blockquote>
-<p>第一次使用 MarkDown 写 Blog， 有点紧张…<br>虽然没人看，可毕竟一血啊 ( ¯ □ ¯ ) </p>
+<p>第一次使用 MarkDown 写 Blog， 有点激动…<br>虽然没人看，可毕竟一血啊 ( ¯ □ ¯ ) </p>
 </blockquote>
 <a id="more"></a>
 <p>一直很羡慕有自己博客的 Prawns。</p>
-<p>Code 两年了，喜欢折腾，这次自己捣鼓了个 Blog。</p>
+<p>Code 工作快两年了，喜欢折腾，这次自己捣鼓了个 Blog。</p>
 <p>以前也想过自己做个 BBS，Blog 什么的，由于工作原因（主要是懒），计划的事一直推后推后再推后，致使这么长时间感觉一无所获。</p>
 <p>这次制作这个 Blog，主要想认真做点事情，平时太安逸让自己变得太懒了，其次就是感觉脑袋记的东西不能长时间保存，也许哪天就忘了，做个 Blog 记录下来，以后也能翻一翻，总之对自己好处多多吧。</p>
 <p>下面介绍一下这个 Blog 的搭建流程吧：</p>
 <ol>
 <li>安装 <a href="https://nodejs.org/en/" title="https://nodejs.org/en/" target="_blank" rel="external">NodeJS</a>，做前端开发应该再熟悉不过了吧 (^_^)</li>
-<li>使用以下命令安装 <a href="https://hexo.io" title="https://hexo.io" target="_blank" rel="external">Hexo</a> 并创建 Hello World ：</li>
+<li>使用以下命令安装 <a href="https://hexo.io" title="https://hexo.io" target="_blank" rel="external">Hexo</a> 并创建 Hello world ：</li>
 <li><code>npm install hexo-cli -g</code></li>
 <li><code>hexo init blog</code></li>
 <li><code>cd blog</code></li>
 <li><code>npm install</code></li>
 <li><code>hexo server</code></li>
-<li>执行完上述命令，应该可以看到命令行的提示，直接访问 <a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 就可以看到 Demo 了。</li>
+<li>执行完上述命令，应该可以看到命令行的提示，直接访问 <a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 就可以看到 Hello world 了。</li>
 </ol>
 <p>之后如果觉得主题风格不喜欢，可以访问 <a href="https://hexo.io/themes/" title="https://hexo.io/themes/" target="_blank" rel="external">Hexo Theme</a> 挑选喜欢的主题，按照提示安装并修改 <code>_config.yml</code>等等系列操作，就可改造成完全符合自己口味的 Blog 啦。</p>
-<p>如果您觉得作者这款主题符合您口味的话，由于暂时还没有整理出来（没有提交到 <a href="https://github.com/" title="https://github.com/" target="_blank" rel="external">GitHub</a> ）， 可以先关注我的 <a href="https://github.com/ifzm" title="https://github.com/ifzm" target="_blank" rel="external">GitHub</a>，<a href="http://weibo.com/smileMessenger" title="http://weibo.com/smileMessenger" target="_blank" rel="external">Microblog</a>，<a href="https://twitter.com/Smile_Fzm" title="https://twitter.com/Smile_Fzm" target="_blank" rel="external">Twitter</a> </p>
-<p>本来菜鸟一枚，写的不好勿喷哈 (^_^)</p>
+<p>如果您觉得博主这款主题符合您口味的话，由于暂时还没有整理出来（没有提交到 <a href="https://github.com/" title="https://github.com/" target="_blank" rel="external">GitHub</a> ）， 可以先关注我的 <a href="https://github.com/ifzm" title="https://github.com/ifzm" target="_blank" rel="external">GitHub</a>，<a href="http://weibo.com/smileMessenger" title="http://weibo.com/smileMessenger" target="_blank" rel="external">Microblog</a>，<a href="https://twitter.com/Smile_Fzm" title="https://twitter.com/Smile_Fzm" target="_blank" rel="external">Twitter</a> </p>
+<p>博主菜鸟一枚，文笔更是烂，写的不好勿喷哈 (^_^)</p>
 <p>今后会持续更新各类文章，望支持。。。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
-<p>第一次使用 MarkDown 写 Blog， 有点紧张…<br>虽然没人看，可毕竟一血啊 ( ¯ □ ¯ ) </p>
+<p>第一次使用 MarkDown 写 Blog， 有点激动…<br>虽然没人看，可毕竟一血啊 ( ¯ □ ¯ ) </p>
 </blockquote>]]>
     
     </summary>
@@ -57,9 +74,9 @@
   
   <entry>
     <title><![CDATA[Apollo Theme]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/28/Apollo%20Theme/"/>
-    <id>http://blog.ifzm.cn/2016/01/28/Apollo Theme/</id>
-    <published>2016-01-28T08:49:17.170Z</published>
+    <link href="http://blog.ifzm.cn/2016/01/29/apollo-theme/"/>
+    <id>http://blog.ifzm.cn/2016/01/29/apollo-theme/</id>
+    <published>2016-01-29T01:21:40.997Z</published>
     <updated>2016-01-28T08:49:17.138Z</updated>
     <content type="html"><![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"></p>
 <a id="more"></a>
@@ -80,28 +97,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[Show]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/28/Show/"/>
-    <id>http://blog.ifzm.cn/2016/01/28/Show/</id>
-    <published>2016-01-28T08:46:16.807Z</published>
-    <updated>2016-01-28T08:46:16.807Z</updated>
-    <content type="html"><![CDATA[<p><div class="tip"> 多图预警 … </div><br><a id="more"></a><br><img src="http://7xmxp1.com1.z0.glb.clouddn.com/6575051212208095.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/680828600805514419.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/603567515373989377.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/656749354843043792.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/647792285734977963.jpg" alt=""></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><div class="tip"> 多图预警 … </div><br>]]>
-    
-    </summary>
-    
-      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[Hello World]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/26/hello-world/"/>
-    <id>http://blog.ifzm.cn/2016/01/26/hello-world/</id>
-    <published>2016-01-26T05:48:07.984Z</published>
-    <updated>2016-01-26T05:48:07.984Z</updated>
+    <link href="http://blog.ifzm.cn/2015/12/12/hello-world/"/>
+    <id>http://blog.ifzm.cn/2015/12/12/hello-world/</id>
+    <published>2015-12-12T11:07:43.000Z</published>
+    <updated>2016-01-29T09:30:47.297Z</updated>
     <content type="html"><![CDATA[<p><img class="lazy" data-src="http://7xmxp1.com1.z0.glb.clouddn.com/hexo.png"><br>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <a id="more"></a>
 <h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>

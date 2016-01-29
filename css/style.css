@@ -88,6 +88,19 @@ a.nav-list-link:hover::before{
 	-webkit-transition-duration: 0.3s;
 	transition-duration: 0.3s;
 }
+a.prev .fa{
+	margin-right: 10px;
+}
+a.next .fa{
+	margin-left: 10px;
+}
+.paginator .fa{
+	font-size: 12px;
+}
+.paginator.show{
+    padding-top: 15px;
+    border-top: 1px solid #d6d6d6;
+}
 
 body{
 	position: relative;
@@ -139,8 +152,10 @@ body.scroll{
     top: 0px;
     left: 0px;
     opacity: 1;
+    -webkit-transform: rotateZ(0deg);
     transform: rotateZ(0deg);
     transition: opacity, width, top, left, transform .3s;
+    -webkit-transition: opacity, width, top, left, -webkit-transform .3s;
 }
 .show-menu .menu-line-first{
 	margin-top: 0px;
@@ -148,6 +163,7 @@ body.scroll{
 .show-menu.hover:not(.open) .menu-line-first{
 	width: 50%;
 	top: 2px;
+	-webkit-transform: rotateZ(-45deg);
 	transform: rotateZ(-45deg);
 }
 .show-menu.hover:not(.open) .menu-line-middle{
@@ -156,11 +172,13 @@ body.scroll{
 .show-menu.hover:not(.open) .menu-line-last{
 	width: 50%;
 	top: -2px;
+	-webkit-transform: rotateZ(45deg);
 	transform: rotateZ(45deg);
 } 
 
 .show-menu.open .menu-line-first{
 	top: 5px;
+	-webkit-transform: rotateZ(-45deg);
 	transform: rotateZ(-45deg);
 }
 .show-menu.open .menu-line-middle{
@@ -169,6 +187,7 @@ body.scroll{
 }
 .show-menu.open .menu-line-last{
 	top: -5px;
+	-webkit-transform: rotateZ(45deg);
 	transform: rotateZ(45deg);
 }
 
@@ -310,4 +329,55 @@ section.container{
 .quote .fa {
     position: absolute;
     height: 24px;
+}
+
+.collection-title h2{
+	margin: 2em 0;
+    padding-left: 20px;
+    border-left: 4px solid #42b983;
+}
+.archive{
+	margin-top: 40px;
+}
+.archive .tip a{
+	margin: 0 5px;
+}
+.archive-item{
+	position: relative;
+	margin-left: 30px;
+	padding-left: 10px;
+	font-size: 11px;
+	border-bottom: 1px dashed #ccc;
+	transition: border-bottom .3s;
+}
+.archive-item:hover{
+	border-bottom: 1px dashed #666;
+}
+.archive-item:hover::before{
+	background: #666;
+}
+.archive-item .time{
+	position: absolute;
+    top: 2px;
+    font-size: 14px;
+}
+.archive-item h2{
+	margin-bottom: 0px;
+	margin-left: 40px;
+}
+.archive-item::before{
+	content: " ";
+    position: absolute;
+    left: 0;
+    top: 8.5px;
+    width: 6px;
+    height: 6px;
+    margin-left: -4px;
+    background: #bbb;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+    transition-property: background;
 }

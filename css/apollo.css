@@ -616,7 +616,8 @@ pre .xml .cdata {
 }
 
 .paginator {
-    margin: 4em 0
+    margin: 4em 0;
+    margin-top: 3em;
 }
 
 .paginator .prev,
@@ -631,16 +632,16 @@ pre .xml .cdata {
 
 .paginator .prev {
     width: 49%;
-    margin-left: -1%;
-    margin-right: 1%;
-    text-align: right
+    margin-left: 1%;
+    margin-right: 0%;
+    text-align: left
 }
 
 .paginator .next {
     width: 49%;
-    margin-left: 1%;
-    margin-right: -1%;
-    text-align: left
+    margin-left: 0%;
+    margin-right: 0%;
+    text-align: right;
 }
 
 .ds-thread,
