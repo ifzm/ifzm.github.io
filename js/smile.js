@@ -84,7 +84,7 @@ $(function() {
     var Counter = AV.Object.extend("Counter")
     $('.visitors').length === 1 ? addCount(Counter) : showAll(Counter)
 
-    $(window).scrollTop(0)
+    //$(window).scrollTop(0)
     //Back-To-Top
     $(window).scroll(function() {
         /* Act on the event */

@@ -2,13 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.ifzm.cn/2016/01/31/anniversary/</loc>
+    <lastmod>2016-01-30T18:16:04.671Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.ifzm.cn/2015/12/12/hello-world/</loc>
     <lastmod>2016-01-29T09:30:47.297Z</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.ifzm.cn/2016/01/29/Show/</loc>
-    <lastmod>2016-01-29T02:42:58.024Z</lastmod>
+    <loc>http://blog.ifzm.cn/2016/01/31/show/</loc>
+    <lastmod>2016-01-29T09:30:10.481Z</lastmod>
   </url>
   
   <url>

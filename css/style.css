@@ -345,7 +345,7 @@ section.container{
 .archive-item{
 	position: relative;
 	margin-left: 30px;
-	padding-left: 10px;
+	padding-left: 15px;
 	font-size: 11px;
 	border-bottom: 1px dashed #ccc;
 	transition: border-bottom .3s;
@@ -358,12 +358,13 @@ section.container{
 }
 .archive-item .time{
 	position: absolute;
-    top: 2px;
-    font-size: 14px;
+    top: 4px;
+    font-size: 13px;
 }
-.archive-item h2{
+.archive-item .post-header{
 	margin-bottom: 0px;
-	margin-left: 40px;
+	margin-left: 45px;
+	font-size: 17px;
 }
 .archive-item::before{
 	content: " ";
