@@ -3,9 +3,9 @@
   <title><![CDATA[Smile Blog]]></title>
   
   <link href="/atom.xml" rel="self"/>
-  <link href="http://blog.ifzm.cn/"/>
-  <updated>2016-01-31T05:22:03.239Z</updated>
-  <id>http://blog.ifzm.cn/</id>
+  <link href="http://smileue.com/"/>
+  <updated>2016-01-31T12:33:33.158Z</updated>
+  <id>http://smileue.com/</id>
   
   <author>
     <name><![CDATA[Smile]]></name>
@@ -16,10 +16,10 @@
   
   <entry>
     <title><![CDATA[Shadowsocks]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/31/shadowsocks-course/"/>
-    <id>http://blog.ifzm.cn/2016/01/31/shadowsocks-course/</id>
-    <published>2016-01-31T05:22:03.239Z</published>
-    <updated>2016-01-31T05:22:03.239Z</updated>
+    <link href="http://smileue.com/2016/01/31/shadowsocks-course/"/>
+    <id>http://smileue.com/2016/01/31/shadowsocks-course/</id>
+    <published>2016-01-31T12:33:33.158Z</published>
+    <updated>2016-01-31T12:33:33.158Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>想要访问 Google, Youtube, Facebook … 有免费的办法吗？ 让我来教你<br><a id="more"></a></p>
 </blockquote>
@@ -28,7 +28,7 @@
 <p>访问 <a href="http://www.ishadowsocks.com" target="_blank" rel="external">http://www.ishadowsocks.com</a>, 下载工具，支持多平台，Windows、Mac、Android、iPhone/iPad, 网站上都有教程一步步教你</p>
 <p>该网站提供三个免费的 <code>Shadowsocks</code> 账号以供使用，博主都试验过，查资料，下载资料，等等轻松应对，如果你网速可以的话，看视频也妥妥的。</p>
 <p>如果对网速要求比较高的话，还是建议使用付费版，各个渠道我就不在这里说了，各位 <code>Geek</code> 自己去摸索。</p>
-<p>上传一张效果图: (本人当前网速较差，实际效果根据使用者网速而定)<br><img src="http://7xmxp1.com1.z0.glb.clouddn.com/youtube.png" alt=""></p>
+<p>上传一张效果图: (博主当前网速较差，实际效果根据使用者网速而定)<br><img src="http://7xmxp1.com1.z0.glb.clouddn.com/youtube.png" alt=""></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -36,18 +36,18 @@
     
     </summary>
     
-      <category term="Geek" scheme="http://blog.ifzm.cn/tags/Geek/"/>
+      <category term="Geek" scheme="http://smileue.com/tags/Geek/"/>
     
-      <category term="Shadowsocks" scheme="http://blog.ifzm.cn/tags/Shadowsocks/"/>
+      <category term="Shadowsocks" scheme="http://smileue.com/tags/Shadowsocks/"/>
     
-      <category term="Ss" scheme="http://blog.ifzm.cn/tags/Ss/"/>
+      <category term="Ss" scheme="http://smileue.com/tags/Ss/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Hexo 常用命令笔记]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/31/hexo-forward/"/>
-    <id>http://blog.ifzm.cn/2016/01/31/hexo-forward/</id>
+    <link href="http://smileue.com/2016/01/31/hexo-forward/"/>
+    <id>http://smileue.com/2016/01/31/hexo-forward/</id>
     <published>2016-01-31T04:42:25.993Z</published>
     <updated>2016-01-31T04:41:00.591Z</updated>
     <content type="html"><![CDATA[<blockquote>
@@ -60,14 +60,14 @@
     
     </summary>
     
-      <category term="Hexo" scheme="http://blog.ifzm.cn/tags/Hexo/"/>
+      <category term="Hexo" scheme="http://smileue.com/tags/Hexo/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[HTML 特殊字符转义对照表]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/31/html-escape/"/>
-    <id>http://blog.ifzm.cn/2016/01/31/html-escape/</id>
+    <link href="http://smileue.com/2016/01/31/html-escape/"/>
+    <id>http://smileue.com/2016/01/31/html-escape/</id>
     <published>2016-01-31T04:15:12.219Z</published>
     <updated>2016-01-31T04:15:12.219Z</updated>
     <content type="html"><![CDATA[<p><div class="tip">转义字符串(Escape Sequence)也称字符实体(Character Entity)，在HTML中，定义转义字符串的原因有两个：第一个原因是像“&lt;”和“&gt;”这类符号已经用来表示HTML标签，因此就不能直接当作文本中的符号来使用。为了在HTML文档中使用这些符号，就需要定义它的转义字符串。当解释程序遇到这类字符串时就把它解释为真实的字符。在输入转义字符串时，要严格遵守字母大小写的规则。第二个原因是，有些字符在ASCII字符集中没有定义，因此需要使用转义字符串来表示，以下列出一些常用的.</div><a id="more"></a><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 常用转义符 --&gt;</span></span><br><span class="line">  &amp;nbsp;	空格</span><br><span class="line">" &amp;quot;	双引号</span><br><span class="line">&amp; &amp;amp;		且号</span><br><span class="line"><span class="tag">&lt; &amp;<span class="attribute">lt</span>;		小于号</span><br><span class="line">&gt;</span> &amp;gt;		大于号</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 其他转义符 --&gt;</span></span><br><span class="line">&amp;#09; — 制表符Horizontal tab </span><br><span class="line">&amp;#10; — 换行Line feed </span><br><span class="line">&amp;#13; — 回车Carriage Return </span><br><span class="line">&amp;#32; — Space </span><br><span class="line">! &amp;#33; — 惊叹号Exclamation mark </span><br><span class="line">” &amp;#34; &amp;quot; 双引号Quotation mark </span><br><span class="line"># &amp;#35; — 数字标志Number sign </span><br><span class="line">$ &amp;#36; — 美元标志Dollar sign </span><br><span class="line">% &amp;#37; — 百分号Percent sign </span><br><span class="line">&amp; &amp;#38; &amp;amp; Ampersand </span><br><span class="line">‘ &amp;#39; — 单引号Apostrophe </span><br><span class="line">( &amp;#40; — 小括号左边部分Left parenthesis </span><br><span class="line">) &amp;#41; — 小括号右边部分Right parenthesis </span><br><span class="line">* &amp;#42; — 星号Asterisk </span><br><span class="line">+ &amp;#43; — 加号Plus sign </span><br><span class="line">, &amp;#44; — 逗号Comma </span><br><span class="line">- &amp;#45; — 连字号Hyphen </span><br><span class="line">. &amp;#46; — 句号Period (fullstop) </span><br><span class="line">/ &amp;#47; — 斜杠Solidus (slash) </span><br><span class="line">: &amp;#58; — 冒号Colon </span><br><span class="line">; &amp;#59; — 分号Semicolon </span><br><span class="line"><span class="tag">&lt; &amp;#<span class="attribute">60</span>; &amp;<span class="attribute">lt</span>; 小于号<span class="attribute">Less</span> <span class="attribute">than</span> </span><br><span class="line">= &amp;#<span class="attribute">61</span>; — 等于符号<span class="attribute">Equals</span> <span class="attribute">sign</span> </span><br><span class="line">&gt;</span> &amp;#62; &amp;gt; 大于号Greater than </span><br><span class="line">? &amp;#63; — 问号Question mark </span><br><span class="line">@ &amp;#64; — Commercial at </span><br><span class="line">&#123; &amp;#123; — 大括号左边部分Left curly brace </span><br><span class="line">| &amp;#124; — 竖线Vertical bar </span><br><span class="line">&#125; &amp;#125; — 大括号右边部分Right curly brace </span><br><span class="line">~ &amp;#126; — Tilde </span><br><span class="line">[ &amp;#91; --- 中括号左边部分Left square bracket </span><br><span class="line">\ &amp;#92; --- 反斜杠Reverse solidus (backslash) </span><br><span class="line">] &amp;#93; — 中括号右边部分Right square bracket </span><br><span class="line">^ &amp;#94; — Caret </span><br><span class="line">_ &amp;#95; — 下划线Horizontal bar (underscore) </span><br><span class="line">` &amp;#96; — 尖重音符Acute accent</span><br><span class="line">0 &amp;#48; — 数字0 Digit 0 </span><br><span class="line">1 &amp;#49; — 数字1 Digit 1 </span><br><span class="line">2 &amp;#50; — 数字2 Digit 2 </span><br><span class="line">3 &amp;#51; — 数字3 Digit 3 </span><br><span class="line">4 &amp;#52; — 数字4 Digit 4 </span><br><span class="line">5 &amp;#53; — 数字5 Digit 5 </span><br><span class="line">6 &amp;#54; — 数字6 Digit 6 </span><br><span class="line">7 &amp;#55; — 数字7 Digit 7 </span><br><span class="line">8 &amp;#56; — 数字8 Digit 8 </span><br><span class="line">9 &amp;#57; — 数字9 Digit 9</span><br></pre></td></tr></table></figure></p>
@@ -77,14 +77,14 @@
     
     </summary>
     
-      <category term="HTML" scheme="http://blog.ifzm.cn/tags/HTML/"/>
+      <category term="HTML" scheme="http://smileue.com/tags/HTML/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Anniversary]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/31/anniversary/"/>
-    <id>http://blog.ifzm.cn/2016/01/31/anniversary/</id>
+    <link href="http://smileue.com/2016/01/31/anniversary/"/>
+    <id>http://smileue.com/2016/01/31/anniversary/</id>
     <published>2016-01-30T18:16:04.671Z</published>
     <updated>2016-01-30T18:16:04.671Z</updated>
     <content type="html"><![CDATA[<p><link rel="stylesheet" href="http://7xmxp1.com1.z0.glb.clouddn.com/default.css?1"></p>
@@ -128,14 +128,14 @@ $(function(){
 <p><div id="code"><span class="comments">/&#42;&#4]]>
     </summary>
     
-      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
+      <category term="Live" scheme="http://smileue.com/tags/Live/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Show]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/31/show/"/>
-    <id>http://blog.ifzm.cn/2016/01/31/show/</id>
+    <link href="http://smileue.com/2016/01/31/show/"/>
+    <id>http://smileue.com/2016/01/31/show/</id>
     <published>2016-01-30T17:32:54.107Z</published>
     <updated>2016-01-29T09:30:10.481Z</updated>
     <content type="html"><![CDATA[<p><div class="tip"> 多图预警 … </div><a id="more"></a><br><img src="http://7xmxp1.com1.z0.glb.clouddn.com/6575051212208095.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/680828600805514419.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/603567515373989377.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/656749354843043792.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/647792285734977963.jpg" alt=""></p>
@@ -145,14 +145,14 @@ $(function(){
     
     </summary>
     
-      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
+      <category term="Live" scheme="http://smileue.com/tags/Live/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[First article]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/29/first-article/"/>
-    <id>http://blog.ifzm.cn/2016/01/29/first-article/</id>
+    <link href="http://smileue.com/2016/01/29/first-article/"/>
+    <id>http://smileue.com/2016/01/29/first-article/</id>
     <published>2016-01-29T01:25:46.801Z</published>
     <updated>2016-01-29T01:25:46.801Z</updated>
     <content type="html"><![CDATA[<blockquote>
@@ -186,14 +186,14 @@ $(function(){
     
     </summary>
     
-      <category term="First" scheme="http://blog.ifzm.cn/tags/First/"/>
+      <category term="First" scheme="http://smileue.com/tags/First/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Apollo Theme]]></title>
-    <link href="http://blog.ifzm.cn/2016/01/29/apollo-theme/"/>
-    <id>http://blog.ifzm.cn/2016/01/29/apollo-theme/</id>
+    <link href="http://smileue.com/2016/01/29/apollo-theme/"/>
+    <id>http://smileue.com/2016/01/29/apollo-theme/</id>
     <published>2016-01-29T01:21:40.997Z</published>
     <updated>2016-01-28T08:49:17.138Z</updated>
     <content type="html"><![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"></p>
@@ -210,14 +210,14 @@ $(function(){
     
     </summary>
     
-      <category term="Theme" scheme="http://blog.ifzm.cn/tags/Theme/"/>
+      <category term="Theme" scheme="http://smileue.com/tags/Theme/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Hello World]]></title>
-    <link href="http://blog.ifzm.cn/2015/12/12/hello-world/"/>
-    <id>http://blog.ifzm.cn/2015/12/12/hello-world/</id>
+    <link href="http://smileue.com/2015/12/12/hello-world/"/>
+    <id>http://smileue.com/2015/12/12/hello-world/</id>
     <published>2015-12-12T11:07:43.000Z</published>
     <updated>2016-01-29T09:30:47.297Z</updated>
     <content type="html"><![CDATA[<p><img class="lazy" data-src="http://7xmxp1.com1.z0.glb.clouddn.com/hexo.png"><br>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
@@ -236,9 +236,9 @@ $(function(){
     
     </summary>
     
-      <category term="Hexo" scheme="http://blog.ifzm.cn/tags/Hexo/"/>
+      <category term="Hexo" scheme="http://smileue.com/tags/Hexo/"/>
     
-      <category term="NodeJS" scheme="http://blog.ifzm.cn/tags/NodeJS/"/>
+      <category term="NodeJS" scheme="http://smileue.com/tags/NodeJS/"/>
     
   </entry>
   
