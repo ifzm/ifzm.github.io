@@ -2,6 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.ifzm.cn/2016/01/31/shadowsocks-course/</loc>
+    <lastmod>2016-01-31T05:22:03.239Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.ifzm.cn/2016/01/31/hexo-forward/</loc>
+    <lastmod>2016-01-31T04:41:00.591Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.ifzm.cn/2016/01/31/html-escape/</loc>
+    <lastmod>2016-01-31T04:15:12.219Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.ifzm.cn/2016/01/31/anniversary/</loc>
     <lastmod>2016-01-30T18:16:04.671Z</lastmod>
   </url>

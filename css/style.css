@@ -43,7 +43,7 @@
     }
 }
 
-/* Font-family */
+/* Font-family
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
@@ -55,7 +55,7 @@
   font-style: normal;
   font-weight: 600;
   src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url(./font/600.woff2) format('woff2');
-}
+} */
 
 a.post-title-link,
 a.nav-list-link{
@@ -88,6 +88,10 @@ a.nav-list-link:hover::before{
 	-webkit-transition-duration: 0.3s;
 	transition-duration: 0.3s;
 }
+a.post-title-link i.fa-share{
+	margin-left: 10px;
+	font-size: 17px;
+}
 a.prev .fa{
 	margin-right: 10px;
 }
@@ -103,6 +107,10 @@ a.next .fa{
 }
 
 body{
+	font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+	color: #34495e;
+    font-size: 15px;
+    line-height: 1.6;
 	position: relative;
 	left: 0;
 	transition: left .3s;
