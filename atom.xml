@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.ifzm.cn/"/>
-  <updated>2016-04-25T02:56:08.361Z</updated>
+  <updated>2017-09-02T08:53:38.225Z</updated>
   <id>http://blog.ifzm.cn/</id>
   
   <author>
@@ -14,6 +14,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu 16.04 TLS 安装 MySQL 教程以及中途可能会遇到的坑</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/install-mysql-for-ubuntu/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/install-mysql-for-ubuntu/</id>
+    <published>2017-09-02T08:53:38.223Z</published>
+    <updated>2017-09-02T08:53:38.225Z</updated>
+    
+    <content type="html"><![CDATA[<h5 id="Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑"><a href="#Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑" class="headerlink" title="Ubuntu 16.04 TLS 安装 MySQL 教程以及中途可能会遇到的坑"></a>Ubuntu 16.04 TLS 安装 MySQL 教程以及中途可能会遇到的坑</h5><ol>
+<li><p>命令安装，会提示输入 <code>mysql</code> 的 <code>root</code> 账户的密码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">➜  ~  sudo apt-get install mysql-server</div><div class="line">➜  ~  sudo apt-get install mysql-client</div><div class="line">➜  ~  sudo apt-get install libmysqlclient-dev</div><div class="line">      </div><div class="line"># 中途遇到问题，通常可以通过下面的命令解决，如果还是有其他问题，请跳到最后看一些常见的问题解决</div><div class="line">➜  ~  sudo apt-get update</div><div class="line">➜  ~  sudo apt-get install -f</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果上面的命令都正确执行，则执行下面的命令确认是否成功（结果如果和下面的类似，就代表成功了）</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~  sudo netstat -tap | grep mysql</div><div class="line">tcp6       0      0 [::]:mysql              [::]:*                  LISTEN      7510/mysqld</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置远程访问（<strong>非必要</strong>）</p>
+<p>第一步，修改IP限制：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 执行下面的一条命令找到 bind-address = 127.0.0.1 并注释，修改为 # bind-address = 127.0.0.1</div><div class="line">➜  ~  vim /etc/mysql/my.cnf 或 sudo gedit /etc/mysql/my.cnf</div><div class="line"></div><div class="line"># 修改完成后重启 mysql</div><div class="line">➜  ~  sudo /etc/init.d/mysql restart</div></pre></td></tr></table></figure>
+<p>第二步，用户授权：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">➜  ~  mysql -uroot -p123456</div><div class="line"></div><div class="line">Welcome to the MySQL monitor...</div><div class="line"></div><div class="line"># *.*：第一个*代表数据库名；第二个*代表表名。这里的意思是所有数据库里的所有表都授权给用户。root：授予root账号</div><div class="line"># %：表示授权的用户IP可以指定，这里代表任意的IP地址都能访问MySQL数据库</div><div class="line"># 123456：表示分配账号对应的密码，这里密码自己替换成你的mysql root帐号密码</div><div class="line">mysql&gt; grant all on *.* to root@'%' identified by '123456' with grand option;</div><div class="line"># 刷新权限信息，也即是让我们所作的设置马上生效</div><div class="line">mysql&gt; flush privileges;</div><div class="line"># 退出</div><div class="line">mysql&gt; exit;</div></pre></td></tr></table></figure>
+</li>
+<li><p>常见问题集锦：</p>
+<ul>
+<li><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># 安装出现类似下面的情况</div><div class="line">...</div><div class="line">error processing mysql-server-5.7 (--configrue): 子进程 已安装 post-installation 脚本</div><div class="line">然而 mysql-server-5.7 尚未配置 ...</div><div class="line">...</div><div class="line">E: Sub-process /usr/bin/dpkg returned an error code (1)</div><div class="line"></div><div class="line"># 尝试执行下面的命令</div><div class="line">➜  ~  sudo rm /var/lib/mysql/ -R</div><div class="line">➜  ~  sudo rm /etc/mysql/ -R</div><div class="line">➜  ~  sudo apt-get autoremove mysql* --purge</div><div class="line">➜  ~  sudo apt-get remove apparmor</div><div class="line">➜  ~  sudo apt-get autoclean</div><div class="line"></div><div class="line"># 中途如果没有其他错误，则可以回到最上面的安装教程</div></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 卸载出现类似下面的情况</div><div class="line">...</div><div class="line">error processing mysql-server-5.7 (--purge): 子进程 已安装 pre-removal 脚本</div><div class="line">然而 mysql-server-5.7 尚未配置 ...</div><div class="line">...</div><div class="line">E: Sub-process /usr/bin/dpkg returned an error code (1)</div><div class="line">  </div><div class="line"># 请确认错误信息中是否包含 `missing LSB tags and overrides` 这类警告或错误，如果有，通常是自定义的开机启动脚本书写不规范导致的，需要找到对应的启动脚本，进行修改，下面以 `redis` 开启启动为例，没有填写 `BEGIN INIT INFO` - `END INIT INFO` 这一段,也是会出现无法彻底卸载或安装MySQL的原因之一...</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line"># chkconfig:   2345 90 10</div><div class="line"># description:  Redis is a persistent key-value database</div><div class="line">#</div><div class="line"># Simple Redis init.d script conceived to work on Linux systems</div><div class="line"># as it does use of the /proc filesystem.</div><div class="line">### BEGIN INIT INFO</div><div class="line"># Provides:          redis6379</div><div class="line"># Required-Start:    $local_fs $network</div><div class="line"># Required-Stop:     $local_fs</div><div class="line"># Default-Start:     2 3 4 5</div><div class="line"># Default-Stop:      0 1 6</div><div class="line"># Short-Description: redis6379</div><div class="line"># Description:       penavico redis 6379</div><div class="line">### END INIT INFO</div><div class="line"></div><div class="line">REDISPORT=6379</div><div class="line">EXEC=/usr/local/bin/redis-server</div><div class="line">CLIEXEC=/usr/local/bin/redis-cli</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+<p>​</p>
+</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h5 id=&quot;Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑&quot;&gt;&lt;a href=&quot;#Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑&quot; class=&quot;headerlink&quot; title=&quot;Ubuntu 16.04 T
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Spring 任务调度器之 Task 的使用</title>
@@ -142,34 +185,6 @@
   </entry>
   
   <entry>
-    <title>Apollo Theme</title>
-    <link href="http://blog.ifzm.cn/2017/09/02/apollo-theme/"/>
-    <id>http://blog.ifzm.cn/2017/09/02/apollo-theme/</id>
-    <published>2017-09-02T08:14:32.373Z</published>
-    <updated>2016-01-28T08:49:17.139Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"></p>
-<a id="more"></a>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hexo init Blog </div><div class="line"><span class="built_in">cd</span> Blog </div><div class="line">npm install</div><div class="line">npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync</div><div class="line">git <span class="built_in">clone</span> https://github.com/pinggod/hexo-theme-apollo.git themes/apollo</div></pre></td></tr></table></figure>
-<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><p>修改 <code>_config.yml</code> 的 <code>theme</code> 配置项为 <code>apollo</code>:</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">theme:</span> <span class="string">apollo</span></div></pre></td></tr></table></figure>
-<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> themes/apollo </div><div class="line">git pull</div></pre></td></tr></table></figure>
-<h2 id="图例"><a href="#图例" class="headerlink" title="图例"></a>图例</h2><p>因为实际写博的过程中会用到各种类型的图例，比如流程图、序列图或者只是简单的模拟图，所以目前用的工具是 Microsoft PowerPoint。实际上，有一个工具可以满足对图例的需求，这个工具是一个在线制图网站<a href="https://www.processon.com" target="_blank" rel="external">ProcessOn</a>，唯一遗憾的是不可以自定义配色，所以我只能使用 PPT 创建与网站配色相适应的图例。</p>
-<h2 id="自定义块"><a href="#自定义块" class="headerlink" title="自定义块"></a>自定义块</h2><p>Markdown 生成的标签暂时比较简单，所以提供了一些 HTML 标签来标识特殊样式，详见 <a href="https://github.com/pinggod/hexo-theme-apollo/blob/master/doc/custom-blocks.md" target="_blank" rel="external">custrom-blocks</a>。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png&quot; alt=&quot;hexo-theme-apollo&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Theme" scheme="http://blog.ifzm.cn/tags/Theme/"/>
-    
-  </entry>
-  
-  <entry>
     <title>First article</title>
     <link href="http://blog.ifzm.cn/2017/09/02/first-article/"/>
     <id>http://blog.ifzm.cn/2017/09/02/first-article/</id>
@@ -211,6 +226,34 @@
     
     
       <category term="First" scheme="http://blog.ifzm.cn/tags/First/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Apollo Theme</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/apollo-theme/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/apollo-theme/</id>
+    <published>2017-09-02T08:14:32.373Z</published>
+    <updated>2016-01-28T08:49:17.139Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"></p>
+<a id="more"></a>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hexo init Blog </div><div class="line"><span class="built_in">cd</span> Blog </div><div class="line">npm install</div><div class="line">npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync</div><div class="line">git <span class="built_in">clone</span> https://github.com/pinggod/hexo-theme-apollo.git themes/apollo</div></pre></td></tr></table></figure>
+<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><p>修改 <code>_config.yml</code> 的 <code>theme</code> 配置项为 <code>apollo</code>:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">theme:</span> <span class="string">apollo</span></div></pre></td></tr></table></figure>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> themes/apollo </div><div class="line">git pull</div></pre></td></tr></table></figure>
+<h2 id="图例"><a href="#图例" class="headerlink" title="图例"></a>图例</h2><p>因为实际写博的过程中会用到各种类型的图例，比如流程图、序列图或者只是简单的模拟图，所以目前用的工具是 Microsoft PowerPoint。实际上，有一个工具可以满足对图例的需求，这个工具是一个在线制图网站<a href="https://www.processon.com" target="_blank" rel="external">ProcessOn</a>，唯一遗憾的是不可以自定义配色，所以我只能使用 PPT 创建与网站配色相适应的图例。</p>
+<h2 id="自定义块"><a href="#自定义块" class="headerlink" title="自定义块"></a>自定义块</h2><p>Markdown 生成的标签暂时比较简单，所以提供了一些 HTML 标签来标识特殊样式，详见 <a href="https://github.com/pinggod/hexo-theme-apollo/blob/master/doc/custom-blocks.md" target="_blank" rel="external">custrom-blocks</a>。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png&quot; alt=&quot;hexo-theme-apollo&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Theme" scheme="http://blog.ifzm.cn/tags/Theme/"/>
     
   </entry>
   
@@ -329,49 +372,6 @@ $(function(){
     <summary type="html">
     
       &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://blog.ifzm.cn/2017/09/02/Ubuntu%2016.04%20TLS%20%E5%AE%89%E8%A3%85%20MySQL%20%E6%95%99%E7%A8%8B%E4%BB%A5%E5%8F%8A%E4%B8%AD%E9%80%94%E5%8F%AF%E8%83%BD%E4%BC%9A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
-    <id>http://blog.ifzm.cn/2017/09/02/Ubuntu 16.04 TLS 安装 MySQL 教程以及中途可能会遇到的坑/</id>
-    <published>2017-09-01T16:18:01.887Z</published>
-    <updated>2017-07-01T09:14:23.363Z</updated>
-    
-    <content type="html"><![CDATA[<h5 id="Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑"><a href="#Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑" class="headerlink" title="Ubuntu 16.04 TLS 安装 MySQL 教程以及中途可能会遇到的坑"></a>Ubuntu 16.04 TLS 安装 MySQL 教程以及中途可能会遇到的坑</h5><ol>
-<li><p>命令安装，会提示输入 <code>mysql</code> 的 <code>root</code> 账户的密码</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">➜  ~  sudo apt-get install mysql-server</div><div class="line">➜  ~  sudo apt-get install mysql-client</div><div class="line">➜  ~  sudo apt-get install libmysqlclient-dev</div><div class="line">      </div><div class="line"># 中途遇到问题，通常可以通过下面的命令解决，如果还是有其他问题，请跳到最后看一些常见的问题解决</div><div class="line">➜  ~  sudo apt-get update</div><div class="line">➜  ~  sudo apt-get install -f</div></pre></td></tr></table></figure>
-</li>
-<li><p>如果上面的命令都正确执行，则执行下面的命令确认是否成功（结果如果和下面的类似，就代表成功了）</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~  sudo netstat -tap | grep mysql</div><div class="line">tcp6       0      0 [::]:mysql              [::]:*                  LISTEN      7510/mysqld</div></pre></td></tr></table></figure>
-</li>
-<li><p>设置远程访问（<strong>非必要</strong>）</p>
-<p>第一步，修改IP限制：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 执行下面的一条命令找到 bind-address = 127.0.0.1 并注释，修改为 # bind-address = 127.0.0.1</div><div class="line">➜  ~  vim /etc/mysql/my.cnf 或 sudo gedit /etc/mysql/my.cnf</div><div class="line"></div><div class="line"># 修改完成后重启 mysql</div><div class="line">➜  ~  sudo /etc/init.d/mysql restart</div></pre></td></tr></table></figure>
-<p>第二步，用户授权：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">➜  ~  mysql -uroot -p123456</div><div class="line"></div><div class="line">Welcome to the MySQL monitor...</div><div class="line"></div><div class="line"># *.*：第一个*代表数据库名；第二个*代表表名。这里的意思是所有数据库里的所有表都授权给用户。root：授予root账号</div><div class="line"># %：表示授权的用户IP可以指定，这里代表任意的IP地址都能访问MySQL数据库</div><div class="line"># 123456：表示分配账号对应的密码，这里密码自己替换成你的mysql root帐号密码</div><div class="line">mysql&gt; grant all on *.* to root@'%' identified by '123456' with grand option;</div><div class="line"># 刷新权限信息，也即是让我们所作的设置马上生效</div><div class="line">mysql&gt; flush privileges;</div><div class="line"># 退出</div><div class="line">mysql&gt; exit;</div></pre></td></tr></table></figure>
-</li>
-<li><p>常见问题集锦：</p>
-<ul>
-<li><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># 安装出现类似下面的情况</div><div class="line">...</div><div class="line">error processing mysql-server-5.7 (--configrue): 子进程 已安装 post-installation 脚本</div><div class="line">然而 mysql-server-5.7 尚未配置 ...</div><div class="line">...</div><div class="line">E: Sub-process /usr/bin/dpkg returned an error code (1)</div><div class="line"></div><div class="line"># 尝试执行下面的命令</div><div class="line">➜  ~  sudo rm /var/lib/mysql/ -R</div><div class="line">➜  ~  sudo rm /etc/mysql/ -R</div><div class="line">➜  ~  sudo apt-get autoremove mysql* --purge</div><div class="line">➜  ~  sudo apt-get remove apparmor</div><div class="line">➜  ~  sudo apt-get autoclean</div><div class="line"></div><div class="line"># 中途如果没有其他错误，则可以回到最上面的安装教程</div></pre></td></tr></table></figure>
-</li>
-<li><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 卸载出现类似下面的情况</div><div class="line">...</div><div class="line">error processing mysql-server-5.7 (--purge): 子进程 已安装 pre-removal 脚本</div><div class="line">然而 mysql-server-5.7 尚未配置 ...</div><div class="line">...</div><div class="line">E: Sub-process /usr/bin/dpkg returned an error code (1)</div><div class="line">  </div><div class="line"># 请确认错误信息中是否包含 `missing LSB tags and overrides` 这类警告或错误，如果有，通常是自定义的开机启动脚本书写不规范导致的，需要找到对应的启动脚本，进行修改，下面以 `redis` 开启启动为例，没有填写 `BEGIN INIT INFO` - `END INIT INFO` 这一段,也是会出现无法彻底卸载或安装MySQL的原因之一...</div></pre></td></tr></table></figure>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line"># chkconfig:   2345 90 10</div><div class="line"># description:  Redis is a persistent key-value database</div><div class="line">#</div><div class="line"># Simple Redis init.d script conceived to work on Linux systems</div><div class="line"># as it does use of the /proc filesystem.</div><div class="line">### BEGIN INIT INFO</div><div class="line"># Provides:          redis6379</div><div class="line"># Required-Start:    $local_fs $network</div><div class="line"># Required-Stop:     $local_fs</div><div class="line"># Default-Start:     2 3 4 5</div><div class="line"># Default-Stop:      0 1 6</div><div class="line"># Short-Description: redis6379</div><div class="line"># Description:       penavico redis 6379</div><div class="line">### END INIT INFO</div><div class="line"></div><div class="line">REDISPORT=6379</div><div class="line">EXEC=/usr/local/bin/redis-server</div><div class="line">CLIEXEC=/usr/local/bin/redis-cli</div><div class="line">...</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ul>
-<p>​</p>
-</li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h5 id=&quot;Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑&quot;&gt;&lt;a href=&quot;#Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑&quot; class=&quot;headerlink&quot; title=&quot;Ubuntu 16.04 T
     
     </summary>
     
