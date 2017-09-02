@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Blog</title>
+  <subtitle>Blog</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://blog.ifzm.cn/"/>
+  <updated>2016-04-25T02:56:08.361Z</updated>
+  <id>http://blog.ifzm.cn/</id>
+  
+  <author>
+    <name>ifzm</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spring 任务调度器之 Task 的使用</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/spring-task/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/spring-task/</id>
+    <published>2017-09-02T08:14:36.469Z</published>
+    <updated>2016-04-25T02:56:08.361Z</updated>
+    
+    <content type="html"><![CDATA[<p><div class="tip"><code>Spring</code> 从 <code>3.0</code> 以后已经自带任务调度器， 相信很多人都用着 <a href="http://baike.baidu.com/link?url=5W6ySpFK15TdUtXt5EHS7B0y6nSBqHThauKuHjkYsqNo5oqb32gAMyzcln3Olvd0-hug5LZ9yM6ZKqjXt2QVrhQ0K4jBoVBPgn8VuBSRikO" title="Quartz" target="_blank" rel="external">Quartz</a>， 这里就不多解释了， 只是相比 <code>Quartz</code>， <code>Spring Task</code> 无论是理解还是使用都简单得多.</div><a id="more"></a><br><code>Spring Task</code> 提供两种方式进行配置，一种是 <code>annotation</code>(注解)，而另外一种就是XML配置了。</p>
+<p>推荐 XML 配置方式（请自行 Google）， 这里我就介绍 <code>annotation</code>(注解) @Scheduled， 还是习惯 AOP 配置 :-D</p>
+<p>具体配置参考如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line"><span class="tag"><span class="attr">xmlns:task</span>=<span class="string">"http://www.springframework.org/schema/task"</span></span></div><div class="line"><span class="tag"><span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans/spring-beans-4.0.xsd </span></span></div><div class="line"><span class="tag"><span class="string">http://www.springframework.org/schema/task/spring-task-4.0.xsd"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 启动扫描 Task --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.nmore.smile.Task"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">task:annotation-driven</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.nmore.smile.Task;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.scheduling.annotation.Scheduled;</div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.nmore.smile.utils.DateUtil;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * <span class="doctag">@ClassName</span>: Task</span></div><div class="line"><span class="comment"> * <span class="doctag">@Description</span>: 任务调度</span></div><div class="line"><span class="comment"> * <span class="doctag">@Author</span> devfzm@gmail.com</span></div><div class="line"><span class="comment"> * <span class="doctag">@Date</span> 2016-04-20 11:13:52</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Task</span> </span>&#123;</div><div class="line"></div><div class="line">true<span class="comment">/**</span></div><div class="line"><span class="comment">	 * <span class="doctag">@Title</span>: databaseBackup</span></div><div class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 每 10m 执行一次备份数据库操作</span></div><div class="line"><span class="comment">	 * <span class="doctag">@return</span> void </span></div><div class="line"><span class="comment">	 * <span class="doctag">@throws</span></span></div><div class="line"><span class="comment">	 * 0 0/10 * * * ? 每十分钟一次 |  0/5  * * * * ? 每五秒一次</span></div><div class="line"><span class="comment">	 */</span></div><div class="line">true<span class="meta">@Scheduled</span>(cron = <span class="string">"0 0/10 * * * ?"</span>)</div><div class="line">true<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">databaseBackup</span><span class="params">()</span> </span>&#123;</div><div class="line">truetrueSystem.out.println(DateUtil.getTime(<span class="keyword">new</span> Date()) + <span class="string">": 开始备份数据库..."</span>);</div><div class="line"></div><div class="line"></div><div class="line">truetrue<span class="comment">// ...</span></div><div class="line"></div><div class="line"></div><div class="line">truetrueSystem.out.println(DateUtil.getTime(<span class="keyword">new</span> Date()) + <span class="string">": 备份数据库完成！"</span>);</div><div class="line">true&#125;</div></pre></td></tr></table></figure>
+<p>剩下的就是<code>corn</code>表达式了、具体使用以及参数请百度 Google.</p>
+<p>下面只例出几个式子</p>
+<p><code>corn</code> 表达式    含义<br><code>0 0 12 * * ?</code>    每天中午十二点触发<br><code>0 15 10 ? * *</code>    每天早上10：15触发<br><code>0 15 10 * * ?</code>    每天早上10：15触发<br><code>0 15 10 * * ? *</code>    每天早上10：15触发<br><code>0 15 10 * * ? 2005</code>    2005年的每天早上10：15触发<br><code>0 * 14 * * ?</code>    每天从下午2点开始到2点59分每分钟一次触发<br><code>0 0/5 14 * * ?</code>    每天从下午2点开始到2：55分结束每5分钟一次触发<br><code>0 0/5 14,18 * * ?</code>    每天的下午2点至2：55和6点至6点55分两个时间段内每5分钟一次触发<br><code>0 0-5 14 * * ?</code>    每天14:00至14:05每分钟一次触发<br><code>0 10,44 14 ? 3 WED</code>    三月的每周三的14：10和14：44触发<br><code>0 15 10 ? * MON-FRI</code>    每个周一、周二、周三、周四、周五的10：15触发 </p>
+<blockquote>
+<p><code>Quartz</code> 和 <code>Spring Task</code> 间的差距也显而易见的。<code>Spring Task</code> 用起来十分简单，毕竟是 <code>Spring</code> 自家的，虽然跟 <code>Quartz</code> 也可以实现结合，但没那么简单。而 <code>Spring Task</code> 功能也没 <code>Quartz</code> 强大， <code>Quartz</code> 的集群和高级特性多的去了。不过一般情况下，觉得 <code>Spring Task</code> 足够了。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;div class=&quot;tip&quot;&gt;&lt;code&gt;Spring&lt;/code&gt; 从 &lt;code&gt;3.0&lt;/code&gt; 以后已经自带任务调度器， 相信很多人都用着 &lt;a href=&quot;http://baike.baidu.com/link?url=5W6ySpFK15TdUtXt5EHS7B0y6nSBqHThauKuHjkYsqNo5oqb32gAMyzcln3Olvd0-hug5LZ9yM6ZKqjXt2QVrhQ0K4jBoVBPgn8VuBSRikO&quot; title=&quot;Quartz&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Quartz&lt;/a&gt;， 这里就不多解释了， 只是相比 &lt;code&gt;Quartz&lt;/code&gt;， &lt;code&gt;Spring Task&lt;/code&gt; 无论是理解还是使用都简单得多.&lt;/div&gt;
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://blog.ifzm.cn/tags/Java/"/>
+    
+      <category term="Spring" scheme="http://blog.ifzm.cn/tags/Spring/"/>
+    
+      <category term="Task" scheme="http://blog.ifzm.cn/tags/Task/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Show</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/show/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/show/</id>
+    <published>2017-09-02T08:14:36.461Z</published>
+    <updated>2016-01-29T09:30:10.481Z</updated>
+    
+    <content type="html"><![CDATA[<p><div class="tip"> 多图预警 … </div><a id="more"></a><br><img src="http://7xmxp1.com1.z0.glb.clouddn.com/6575051212208095.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/680828600805514419.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/603567515373989377.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/656749354843043792.jpg" alt=""><img src="http://7xmxp1.com1.z0.glb.clouddn.com/647792285734977963.jpg" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;div class=&quot;tip&quot;&gt; 多图预警 … &lt;/div&gt;
+    
+    </summary>
+    
+    
+      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java 数据库表生成 Entity 工具类</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/java-genentity/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/java-genentity/</id>
+    <published>2017-09-02T08:14:36.429Z</published>
+    <updated>2016-03-01T01:27:38.932Z</updated>
+    
+    <content type="html"><![CDATA[<p><div class="tip">这是一个整理出来的JAVA工具类，用于将MySQL数据库表生成Entity实体类</div><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.nmore.smile.utils;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.FileWriter;</div><div class="line"><span class="keyword">import</span> java.io.PrintWriter;</div><div class="line"><span class="keyword">import</span> java.sql.Connection;</div><div class="line"><span class="keyword">import</span> java.sql.DriverManager;</div><div class="line"><span class="keyword">import</span> java.sql.ResultSet;</div><div class="line"><span class="keyword">import</span> java.sql.SQLException;</div><div class="line"><span class="keyword">import</span> java.sql.Statement;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * <span class="doctag">@ClassName</span>: GenEntity </span></div><div class="line"><span class="comment"> * <span class="doctag">@Description</span>: 数据库表生成Entity工具类</span></div><div class="line"><span class="comment"> * <span class="doctag">@Author</span> devfzm@gmail.com</span></div><div class="line"><span class="comment"> * <span class="doctag">@Date</span> 2016年2月29日 上午10:13:36 </span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenEntity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//输出到自定义目录，为空代表输出到当前目录</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PATH = <span class="string">""</span>;</div><div class="line">    <span class="comment">//包名(当指定PATH时，请同步修改PACKAGE，为空则默认为当前目录),如:com.nmore.smile.entity</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String PACKAGE = <span class="string">""</span>;</div><div class="line">true</div><div class="line">    <span class="comment">//数据库连接</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DATABASE = <span class="string">"imall"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String URL =<span class="string">"jdbc:mysql://localhost:3306/"</span>+ DATABASE +<span class="string">"?useUnicode=true&amp;characterEncoding=UTF8&amp;useSSL=false"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAME = <span class="string">"root"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PASS = <span class="string">"123456"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DRIVER =<span class="string">"com.mysql.jdbc.Driver"</span>;</div><div class="line">    </div><div class="line">    <span class="comment">//用于生成实体</span></div><div class="line">    <span class="keyword">private</span> String[] colnames; 				<span class="comment">//列名数组</span></div><div class="line">    <span class="keyword">private</span> String[] colTypes; 				<span class="comment">//列名类型数组</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> f_util = <span class="keyword">false</span>;			<span class="comment">//是否需要导入包java.util.*</span></div><div class="line">    <span class="comment">//用于查询表的列详情，并读取生成注释</span></div><div class="line">    <span class="keyword">private</span> Statement stm;</div><div class="line">    <span class="keyword">private</span> ResultSet rs;</div><div class="line">    </div><div class="line">    <span class="comment">//数据库连接</span></div><div class="line">    <span class="keyword">private</span> Connection con;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 构造函数</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GenEntity</span><span class="params">()</span></span>&#123;</div><div class="line">    	<span class="comment">//创建数据库连接</span></div><div class="line">    	con = connectionDB();</div><div class="line">    	<span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">/**</span></div><div class="line"><span class="comment">             * 以下提供两种生成方法，使用其中一种请注释另一种</span></div><div class="line"><span class="comment">             */</span></div><div class="line">            <span class="comment">//①此处可以自定定义需要生成的实体类表名，数组形式</span></div><div class="line">            String[] arr = <span class="keyword">new</span> String[]&#123;<span class="string">"attr_name"</span>, <span class="string">"attr_value"</span>&#125;;</div><div class="line">            <span class="keyword">for</span>(String str : arr)&#123;</div><div class="line">                <span class="comment">//开始生成实体类</span></div><div class="line">                <span class="keyword">this</span>.init(str, <span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">        	</div><div class="line">            <span class="comment">//②initAll,将数据库中所有表都生成[***Entity.java]</span></div><div class="line">            <span class="comment">//this.initAll();</span></div><div class="line">        	</div><div class="line">    	&#125; <span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">    	&#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="comment">//关闭数据库连接</span></div><div class="line">                con.close();</div><div class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * <span class="doctag">@Title</span>: main </span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> args    </span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> void</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Init.."</span>);</div><div class="line">    	<span class="keyword">new</span> GenEntity();</div><div class="line">    	System.out.println(<span class="string">"Init Complete.."</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> tablename 表名</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> notes 注释,该参数为缺省字段，null就会去查询</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> </span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(String tablename, String notes)</span></span>&#123;</div><div class="line">    	<span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//查询要生成实体类的表</span></div><div class="line">            String sql = <span class="string">"show full columns from `"</span> + tablename + <span class="string">"`"</span>;</div><div class="line">        	</div><div class="line">            <span class="comment">//执行查询，并获取结果</span></div><div class="line">            stm = con.createStatement();</div><div class="line">            rs = stm.executeQuery(sql);</div><div class="line">            <span class="comment">//统计行数,一行就是一个字段</span></div><div class="line">        	</div><div class="line">            rs.last();<span class="comment">//移到最后一行</span></div><div class="line">            <span class="keyword">int</span> size = rs.getRow();   </div><div class="line">            rs.beforeFirst();<span class="comment">//如果还要用结果集，就把指针再移到初始化的位置  </span></div><div class="line">        	</div><div class="line">            colnames = <span class="keyword">new</span> String[size];</div><div class="line">            colTypes = <span class="keyword">new</span> String[size];</div><div class="line">            <span class="comment">//读取查询的结果集</span></div><div class="line">            <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">            <span class="keyword">while</span>(rs.next())&#123;</div><div class="line">                <span class="comment">//将列名和对应数据类型存入数组</span></div><div class="line">                colnames[i] = rs.getString(<span class="string">"Field"</span>);</div><div class="line">                colTypes[i] = rs.getString(<span class="string">"Type"</span>).replaceAll(<span class="string">"[(].*[)]"</span>, <span class="string">""</span>);</div><div class="line">                <span class="comment">//判断数据类型是否需要引入Util</span></div><div class="line">                <span class="keyword">if</span>(colTypes[i].equalsIgnoreCase(<span class="string">"datetime"</span>)) f_util = <span class="keyword">true</span>;</div><div class="line">                </div><div class="line">                i++;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//判断是否传递了注释,没有就去查询</span></div><div class="line">            <span class="keyword">if</span>(notes == <span class="keyword">null</span>)&#123;</div><div class="line">                notes = <span class="keyword">this</span>.queryTableNotes(tablename).toString();</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//拼装实体类内容</span></div><div class="line">            String content = parse(colnames, colTypes, tablename, notes);</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                File directory = <span class="keyword">new</span> File(<span class="string">""</span>);</div><div class="line">                String path = <span class="keyword">this</span>.getClass().getResource(<span class="string">""</span>).getPath();</div><div class="line">                <span class="comment">//设置文件输出路径</span></div><div class="line">                <span class="keyword">if</span>(PATH == <span class="string">""</span>)&#123;</div><div class="line">                    path = directory.getAbsolutePath() + <span class="string">"\\src\\main\\java\\"</span> + path.substring(path.lastIndexOf(<span class="string">"com/"</span>, path.length()), path.length()).replace(<span class="string">"/"</span>, <span class="string">"\\"</span>);</div><div class="line">                &#125;<span class="keyword">else</span>&#123;</div><div class="line">                    path = PATH;</div><div class="line">                &#125;</div><div class="line">                <span class="comment">//文件写入</span></div><div class="line">                FileWriter fw = <span class="keyword">new</span> FileWriter(path + initcap(tablename) + <span class="string">"Entity.java"</span>);</div><div class="line">                PrintWriter pw = <span class="keyword">new</span> PrintWriter(fw);</div><div class="line">                pw.println(content);</div><div class="line">                pw.flush();</div><div class="line">                pw.close();</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception ex)&#123;</div><div class="line">                ex.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * <span class="doctag">@Title</span>: initAll </span></div><div class="line"><span class="comment">     * <span class="doctag">@Description</span>: 初始化生成所有数据库表对应的Entity</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> void</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span></span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initAll</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="comment">//查询所有表表名和注释</span></div><div class="line">        Map&lt;String, String&gt; table_notes = (Map&lt;String, String&gt;) queryTableNotes(<span class="keyword">null</span>);</div><div class="line">        <span class="comment">//非空校验</span></div><div class="line">    	<span class="keyword">if</span>(table_notes != <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">for</span> (Map.Entry&lt;String, String&gt; entry : table_notes.entrySet()) &#123; </div><div class="line">                <span class="comment">//开始生成实体类</span></div><div class="line">                <span class="keyword">this</span>.init(entry.getKey(), entry.getValue());</div><div class="line">            &#125;</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">true</div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 功能：生成实体类主体代码</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> colnames</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> colTypes</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> colSizes </span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> tablename 表名</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> 实体类主体代码字符串</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> SQLException </span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">parse</span><span class="params">(String[] colnames, String[] colTypes, String tablename, String notes)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">        String entity = initcap(tablename);</div><div class="line">    	StringBuffer sb = <span class="keyword">new</span> StringBuffer();</div><div class="line"></div><div class="line">        String path = <span class="keyword">this</span>.getClass().getResource(<span class="string">""</span>).getPath();</div><div class="line">        <span class="comment">//获取包名</span></div><div class="line">        PACKAGE = PACKAGE != <span class="string">""</span>?PACKAGE:path.substring(path.lastIndexOf(<span class="string">"com/"</span>, path.length()), path.length()-<span class="number">1</span>).replace(<span class="string">"/"</span>, <span class="string">"."</span>);</div><div class="line">        <span class="comment">//写入包名和依赖类</span></div><div class="line">        sb.append(<span class="string">"package "</span>+ PACKAGE +<span class="string">";\r\n\r\n"</span>);</div><div class="line">        sb.append(<span class="string">"import com.nmore.smile.base.BaseEntity;\r\n"</span>);</div><div class="line">        <span class="comment">//判断是否导入工具包</span></div><div class="line">        <span class="keyword">if</span>(f_util)&#123;</div><div class="line">            sb.append(<span class="string">"import java.util.Date;\r\n"</span>);</div><div class="line">            f_util = <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        sb.append(<span class="string">"\r\n"</span>);</div><div class="line">        <span class="comment">//注释部分</span></div><div class="line">        sb.append(<span class="string">"/**\r\n"</span>);</div><div class="line">        sb.append(<span class="string">"* @ClassName: "</span>+ entity +<span class="string">" \r\n"</span>);</div><div class="line">        sb.append(<span class="string">"* @Description: "</span>+ notes +<span class="string">" \r\n"</span>);</div><div class="line">        sb.append(<span class="string">"* @Author devfzm@gmail.com \r\n"</span>);</div><div class="line">        sb.append(<span class="string">"* @Date "</span>+ <span class="keyword">new</span> Date() +<span class="string">" \r\n"</span>);</div><div class="line">        sb.append(<span class="string">"*/\r\n"</span>);</div><div class="line">        <span class="comment">//实体部分</span></div><div class="line">        sb.append(<span class="string">"\r\n@SuppressWarnings(\"serial\")\r\npublic class "</span> + initcap(tablename) + <span class="string">"Entity extends BaseEntity &#123;\r\n"</span>);</div><div class="line">        processAllAttrs(sb);<span class="comment">//属性</span></div><div class="line">        processAllMethod(sb);<span class="comment">//get set方法</span></div><div class="line">        sb.append(<span class="string">"&#125;\r\n"</span>);</div><div class="line">        </div><div class="line">        <span class="keyword">return</span> sb.toString();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 功能：生成所有属性和对应注释</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> sb</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> SQLException </span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">processAllAttrs</span><span class="params">(StringBuffer sb)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    	<span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">    	rs.beforeFirst();<span class="comment">//如果还要用结果集，就把指针再移到初始化的位置</span></div><div class="line">        <span class="keyword">while</span>(rs.next()) &#123;</div><div class="line">            sb.append(<span class="string">"\t//"</span> + rs.getString(<span class="string">"Comment"</span>));</div><div class="line">            sb.append(<span class="string">"\n\tprivate "</span> + sqlType2JavaType(colTypes[i]) + <span class="string">" "</span> + colnames[i] + <span class="string">";\r\n"</span>);</div><div class="line">            i++;</div><div class="line">        &#125;</div><div class="line">        sb.append(<span class="string">"\r\n"</span>);</div><div class="line">        rs.close();</div><div class="line">        stm.close();</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 功能：生成所有 Getter/Setter 方法</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> sb</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">processAllMethod</span><span class="params">(StringBuffer sb)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; colnames.length; i++) &#123;</div><div class="line">            sb.append(<span class="string">"\tpublic void set"</span> + initcap(colnames[i]) + <span class="string">"("</span> + sqlType2JavaType(colTypes[i]) + <span class="string">" "</span> + </div><div class="line">                    colnames[i] + <span class="string">")&#123;\r\n"</span>);</div><div class="line">            sb.append(<span class="string">"\t\tthis."</span> + colnames[i] + <span class="string">"="</span> + colnames[i] + <span class="string">";\r\n"</span>);</div><div class="line">            sb.append(<span class="string">"\t&#125;\r\n"</span>);</div><div class="line">            sb.append(<span class="string">"\tpublic "</span> + sqlType2JavaType(colTypes[i]) + <span class="string">" get"</span> + initcap(colnames[i]) + <span class="string">"()&#123;\r\n"</span>);</div><div class="line">            sb.append(<span class="string">"\t\treturn "</span> + colnames[i] + <span class="string">";\r\n"</span>);</div><div class="line">            sb.append(<span class="string">"\t&#125;\r\n"</span>);</div><div class="line">        &#125;</div><div class="line">         </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 功能：获得列的数据类型</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> sqlType</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> javaType</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">sqlType2JavaType</span><span class="params">(String sqlType)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"bit"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"Boolean"</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"tinyint"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"byte"</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"smallint"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"short"</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"int"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"Integer"</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"bigint"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"long"</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"float"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"float"</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"decimal"</span>) || sqlType.equalsIgnoreCase(<span class="string">"numeric"</span>) </div><div class="line">                || sqlType.equalsIgnoreCase(<span class="string">"real"</span>) || sqlType.equalsIgnoreCase(<span class="string">"money"</span>) </div><div class="line">                || sqlType.equalsIgnoreCase(<span class="string">"smallmoney"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"Double"</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"varchar"</span>) || sqlType.equalsIgnoreCase(<span class="string">"char"</span>) </div><div class="line">                || sqlType.equalsIgnoreCase(<span class="string">"nvarchar"</span>) || sqlType.equalsIgnoreCase(<span class="string">"nchar"</span>) </div><div class="line">                || sqlType.equalsIgnoreCase(<span class="string">"text"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"String"</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"datetime"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"Date"</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sqlType.equalsIgnoreCase(<span class="string">"image"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"Blod"</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 功能：将输入字符串的首字母和"_a"格式的字母改成大写</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> str</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span></span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">initcap</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">        <span class="keyword">char</span>[] ch = str.toCharArray();</div><div class="line">    	<span class="keyword">if</span>(ch[<span class="number">0</span>] &gt;= <span class="string">'a'</span> &amp;&amp; ch[<span class="number">0</span>] &lt;= <span class="string">'z'</span>)&#123;</div><div class="line">            ch[<span class="number">0</span>] = (<span class="keyword">char</span>)(ch[<span class="number">0</span>] - <span class="number">32</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String(ch);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * <span class="doctag">@Title</span>: queryTableNotes </span></div><div class="line"><span class="comment">     * <span class="doctag">@Description</span>: 查询表注释</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> tableName 该参数为缺省参数，不传默认查询所有表</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> Object</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span></span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">queryTableNotes</span><span class="params">(String tableName)</span></span>&#123;</div><div class="line">    	<span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//查询表名称和注释,默认查询数据库的全部表（即tableName为null时）</span></div><div class="line">            String sql = <span class="string">"select table_name,table_comment from information_schema.`TABLES` WHERE table_schema = '"</span>+ DATABASE +<span class="string">"'"</span>;</div><div class="line">            <span class="keyword">if</span>(tableName != <span class="keyword">null</span>)&#123;</div><div class="line">                sql += <span class="string">" and table_name='"</span>+ tableName +<span class="string">"'"</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//执行查询，并获取结果</span></div><div class="line">            Statement sta = con.createStatement();</div><div class="line">            ResultSet rst = sta.executeQuery(sql);</div><div class="line">            <span class="comment">//读取查询结果</span></div><div class="line">            <span class="keyword">if</span>(tableName != <span class="keyword">null</span>)&#123;</div><div class="line">                String str = <span class="string">""</span>; </div><div class="line">            	<span class="keyword">while</span>(rst.next())&#123;</div><div class="line">                    str = rst.getString(<span class="string">"table_comment"</span>);</div><div class="line">            	&#125;</div><div class="line">                sta.close();</div><div class="line">                rst.close();</div><div class="line">                <span class="keyword">return</span> str;</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</div><div class="line">            	<span class="keyword">while</span>(rst.next())&#123;</div><div class="line">                    map.put(rst.getString(<span class="string">"table_name"</span>), rst.getString(<span class="string">"table_comment"</span>));</div><div class="line">            	&#125;</div><div class="line">            	sta.close();</div><div class="line">                rst.close();</div><div class="line">            	<span class="keyword">return</span> map;</div><div class="line">            &#125;</div><div class="line">    	&#125; <span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 建立数据的连接</span></div><div class="line"><span class="comment">     * <span class="doctag">@exception</span> SQLException, ClassNotFoundException</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Connection <span class="title">connectionDB</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            Class.forName(DRIVER);</div><div class="line">            Connection conn = DriverManager.getConnection(URL, NAME, PASS);</div><div class="line">            <span class="comment">//System.out.println("连接数据库成功");</span></div><div class="line">            <span class="keyword">return</span> conn;</div><div class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            <span class="comment">//System.out.println("建立数据库发生错误！");</span></div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;div class=&quot;tip&quot;&gt;这是一个整理出来的JAVA工具类，用于将MySQL数据库表生成Entity实体类&lt;/div&gt;
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://blog.ifzm.cn/tags/Java/"/>
+    
+      <category term="MySQL" scheme="http://blog.ifzm.cn/tags/MySQL/"/>
+    
+      <category term="Entity" scheme="http://blog.ifzm.cn/tags/Entity/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HTML 特殊字符转义对照表</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/html-escape/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/html-escape/</id>
+    <published>2017-09-02T08:14:36.417Z</published>
+    <updated>2016-01-31T04:15:12.220Z</updated>
+    
+    <content type="html"><![CDATA[<p><div class="tip">转义字符串(Escape Sequence)也称字符实体(Character Entity)，在HTML中，定义转义字符串的原因有两个：第一个原因是像“&lt;”和“&gt;”这类符号已经用来表示HTML标签，因此就不能直接当作文本中的符号来使用。为了在HTML文档中使用这些符号，就需要定义它的转义字符串。当解释程序遇到这类字符串时就把它解释为真实的字符。在输入转义字符串时，要严格遵守字母大小写的规则。第二个原因是，有些字符在ASCII字符集中没有定义，因此需要使用转义字符串来表示，以下列出一些常用的.</div><a id="more"></a><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 常用转义符 --&gt;</span></div><div class="line">  &amp;nbsp;	空格</div><div class="line">" &amp;quot;	双引号</div><div class="line">&amp; &amp;amp;		且号</div><div class="line"><span class="tag">&lt; &amp;<span class="attr">lt</span>;		小于号</span></div><div class="line"><span class="tag">&gt;</span> &amp;gt;		大于号</div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 其他转义符 --&gt;</span></div><div class="line">&amp;#09; — 制表符Horizontal tab </div><div class="line">&amp;#10; — 换行Line feed </div><div class="line">&amp;#13; — 回车Carriage Return </div><div class="line">&amp;#32; — Space </div><div class="line">! &amp;#33; — 惊叹号Exclamation mark </div><div class="line">” &amp;#34; &amp;quot; 双引号Quotation mark </div><div class="line"># &amp;#35; — 数字标志Number sign </div><div class="line">$ &amp;#36; — 美元标志Dollar sign </div><div class="line">% &amp;#37; — 百分号Percent sign </div><div class="line">&amp; &amp;#38; &amp;amp; Ampersand </div><div class="line">‘ &amp;#39; — 单引号Apostrophe </div><div class="line">( &amp;#40; — 小括号左边部分Left parenthesis </div><div class="line">) &amp;#41; — 小括号右边部分Right parenthesis </div><div class="line">* &amp;#42; — 星号Asterisk </div><div class="line">+ &amp;#43; — 加号Plus sign </div><div class="line">, &amp;#44; — 逗号Comma </div><div class="line">- &amp;#45; — 连字号Hyphen </div><div class="line">. &amp;#46; — 句号Period (fullstop) </div><div class="line">/ &amp;#47; — 斜杠Solidus (slash) </div><div class="line">: &amp;#58; — 冒号Colon </div><div class="line">; &amp;#59; — 分号Semicolon </div><div class="line"><span class="tag">&lt; &amp;#<span class="attr">60</span>; &amp;<span class="attr">lt</span>; 小于号<span class="attr">Less</span> <span class="attr">than</span> </span></div><div class="line"><span class="tag">= <span class="string">&amp;#61;</span> — 等于符号<span class="attr">Equals</span> <span class="attr">sign</span> </span></div><div class="line"><span class="tag">&gt;</span> &amp;#62; &amp;gt; 大于号Greater than </div><div class="line">? &amp;#63; — 问号Question mark </div><div class="line">@ &amp;#64; — Commercial at </div><div class="line">&#123; &amp;#123; — 大括号左边部分Left curly brace </div><div class="line">| &amp;#124; — 竖线Vertical bar </div><div class="line">&#125; &amp;#125; — 大括号右边部分Right curly brace </div><div class="line">~ &amp;#126; — Tilde </div><div class="line">[ &amp;#91; --- 中括号左边部分Left square bracket </div><div class="line">\ &amp;#92; --- 反斜杠Reverse solidus (backslash) </div><div class="line">] &amp;#93; — 中括号右边部分Right square bracket </div><div class="line">^ &amp;#94; — Caret </div><div class="line">_ &amp;#95; — 下划线Horizontal bar (underscore) </div><div class="line">` &amp;#96; — 尖重音符Acute accent</div><div class="line">0 &amp;#48; — 数字0 Digit 0 </div><div class="line">1 &amp;#49; — 数字1 Digit 1 </div><div class="line">2 &amp;#50; — 数字2 Digit 2 </div><div class="line">3 &amp;#51; — 数字3 Digit 3 </div><div class="line">4 &amp;#52; — 数字4 Digit 4 </div><div class="line">5 &amp;#53; — 数字5 Digit 5 </div><div class="line">6 &amp;#54; — 数字6 Digit 6 </div><div class="line">7 &amp;#55; — 数字7 Digit 7 </div><div class="line">8 &amp;#56; — 数字8 Digit 8 </div><div class="line">9 &amp;#57; — 数字9 Digit 9</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;div class=&quot;tip&quot;&gt;转义字符串(Escape Sequence)也称字符实体(Character Entity)，在HTML中，定义转义字符串的原因有两个：第一个原因是像“&amp;lt;”和“&amp;gt;”这类符号已经用来表示HTML标签，因此就不能直接当作文本中的符号来使用。为了在HTML文档中使用这些符号，就需要定义它的转义字符串。当解释程序遇到这类字符串时就把它解释为真实的字符。在输入转义字符串时，要严格遵守字母大小写的规则。第二个原因是，有些字符在ASCII字符集中没有定义，因此需要使用转义字符串来表示，以下列出一些常用的.&lt;/div&gt;
+    
+    </summary>
+    
+    
+      <category term="HTML" scheme="http://blog.ifzm.cn/tags/HTML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo 常用命令笔记</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/hexo-forward/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/hexo-forward/</id>
+    <published>2017-09-02T08:14:36.357Z</published>
+    <updated>2016-01-31T04:41:00.592Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Hexo 常用命令笔记，转载 ☞ <a href="http://segmentfault.com/a/1190000002632530" target="_blank" rel="external">http://segmentfault.com/a/1190000002632530</a><br><a id="more"></a></p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Hexo 常用命令笔记，转载 ☞ &lt;a href=&quot;http://segmentfault.com/a/1190000002632530&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://segmentfault.com/a/1190000002632530&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="Hexo" scheme="http://blog.ifzm.cn/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Apollo Theme</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/apollo-theme/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/apollo-theme/</id>
+    <published>2017-09-02T08:14:32.373Z</published>
+    <updated>2016-01-28T08:49:17.139Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png" alt="hexo-theme-apollo"></p>
+<a id="more"></a>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hexo init Blog </div><div class="line"><span class="built_in">cd</span> Blog </div><div class="line">npm install</div><div class="line">npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync</div><div class="line">git <span class="built_in">clone</span> https://github.com/pinggod/hexo-theme-apollo.git themes/apollo</div></pre></td></tr></table></figure>
+<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><p>修改 <code>_config.yml</code> 的 <code>theme</code> 配置项为 <code>apollo</code>:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">theme:</span> <span class="string">apollo</span></div></pre></td></tr></table></figure>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> themes/apollo </div><div class="line">git pull</div></pre></td></tr></table></figure>
+<h2 id="图例"><a href="#图例" class="headerlink" title="图例"></a>图例</h2><p>因为实际写博的过程中会用到各种类型的图例，比如流程图、序列图或者只是简单的模拟图，所以目前用的工具是 Microsoft PowerPoint。实际上，有一个工具可以满足对图例的需求，这个工具是一个在线制图网站<a href="https://www.processon.com" target="_blank" rel="external">ProcessOn</a>，唯一遗憾的是不可以自定义配色，所以我只能使用 PPT 创建与网站配色相适应的图例。</p>
+<h2 id="自定义块"><a href="#自定义块" class="headerlink" title="自定义块"></a>自定义块</h2><p>Markdown 生成的标签暂时比较简单，所以提供了一些 HTML 标签来标识特殊样式，详见 <a href="https://github.com/pinggod/hexo-theme-apollo/blob/master/doc/custom-blocks.md" target="_blank" rel="external">custrom-blocks</a>。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/9530963/11295742/8f3d451a-8fa8-11e5-90d2-397af60a992d.png&quot; alt=&quot;hexo-theme-apollo&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Theme" scheme="http://blog.ifzm.cn/tags/Theme/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>First article</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/first-article/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/first-article/</id>
+    <published>2017-09-02T08:14:32.373Z</published>
+    <updated>2016-01-29T01:25:46.801Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>第一次使用 MarkDown 写 Blog， 有点激动…<br>虽然没人看，可毕竟一血啊 ( ¯ □ ¯ ) </p>
+</blockquote>
+<a id="more"></a>
+<p>一直很羡慕有自己博客的 Prawns。</p>
+<p>Code 工作快两年了，喜欢折腾，这次自己捣鼓了个 Blog。</p>
+<p>以前也想过自己做个 BBS，Blog 什么的，由于工作原因（主要是懒），计划的事一直推后推后再推后，致使这么长时间感觉一无所获。</p>
+<p>这次制作这个 Blog，主要想认真做点事情，平时太安逸让自己变得太懒了，其次就是感觉脑袋记的东西不能长时间保存，也许哪天就忘了，做个 Blog 记录下来，以后也能翻一翻，总之对自己好处多多吧。</p>
+<p>下面介绍一下这个 Blog 的搭建流程吧：</p>
+<ol>
+<li>安装 <a href="https://nodejs.org/en/" title="https://nodejs.org/en/" target="_blank" rel="external">NodeJS</a>，做前端开发应该再熟悉不过了吧 (^_^)</li>
+<li>使用以下命令安装 <a href="https://hexo.io" title="https://hexo.io" target="_blank" rel="external">Hexo</a> 并创建 Hello world ：</li>
+<li><code>npm install hexo-cli -g</code></li>
+<li><code>hexo init blog</code></li>
+<li><code>cd blog</code></li>
+<li><code>npm install</code></li>
+<li><code>hexo server</code></li>
+<li>执行完上述命令，应该可以看到命令行的提示，直接访问 <a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 就可以看到 Hello world 了。</li>
+</ol>
+<p>之后如果觉得主题风格不喜欢，可以访问 <a href="https://hexo.io/themes/" title="https://hexo.io/themes/" target="_blank" rel="external">Hexo Theme</a> 挑选喜欢的主题，按照提示安装并修改 <code>_config.yml</code>等等系列操作，就可改造成完全符合自己口味的 Blog 啦。</p>
+<p>如果您觉得博主这款主题符合您口味的话，由于暂时还没有整理出来（没有提交到 <a href="https://github.com/" title="https://github.com/" target="_blank" rel="external">GitHub</a> ）， 可以先关注我的 <a href="https://github.com/ifzm" title="https://github.com/ifzm" target="_blank" rel="external">GitHub</a>，<a href="http://weibo.com/smileMessenger" title="http://weibo.com/smileMessenger" target="_blank" rel="external">Microblog</a>，<a href="https://twitter.com/Smile_Fzm" title="https://twitter.com/Smile_Fzm" target="_blank" rel="external">Twitter</a> </p>
+<p>博主菜鸟一枚，文笔更是烂，写的不好勿喷哈 (^_^)</p>
+<p>今后会持续更新各类文章，望支持。。。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;第一次使用 MarkDown 写 Blog， 有点激动…&lt;br&gt;虽然没人看，可毕竟一血啊 ( ¯ □ ¯ ) &lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="First" scheme="http://blog.ifzm.cn/tags/First/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Anniversary</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/anniversary/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/anniversary/</id>
+    <published>2017-09-02T08:14:32.361Z</published>
+    <updated>2016-01-30T18:16:04.672Z</updated>
+    
+    <content type="html"><![CDATA[<p><link rel="stylesheet" href="http://7xmxp1.com1.z0.glb.clouddn.com/default.css?1"></p>
+<p><div id="code"><span class="comments">/&#42;&#42;</span><br>    <span class="space"><span class="comments">&#42; Date: 2014—07-05.</span><br>    <span class="space"><span class="comments">&#42;/</span><br>    Boy name = <span class="keyword">Mr</span> Fang<br>    Girl name = <span class="keyword">Mrs</span> Dai<br>    <span class="comments">// 今天是个特殊的日子.</span><br>    Today is a special day.<br>    <span class="comments">// 在一个KTV，男孩向女孩表白.</span><br>    In a KTV, The boy told the girl.<br>    <span class="comments">// 男孩: 美丽的戴&#42;&#42;女士, 虽然我英语没过三级, 但是我还是要对你说句英文, I Love You !</span><br>    Boy: Beautiful Ms.Dai Mengyuan, Although I did not pass english level three exam, But I’m still say a word in english for you, I Love You !<br>    <span class="comments">// 女孩: . . .</span><br>    Girl: . . .<br>    <span class="comments">// 男孩: 能不能给我个机会? 让我做你的男朋友.</span><br>    Boy: Would you give me a chance? Let me be your boy friend.<br>    <span class="comments">// 女孩: . . .</span><br>    Girl: . . .<br>    <span class="comments">// 女孩很意外，她的闺蜜说: 她要考虑考虑. . .</span><br>    <span class="comments">// 男孩好紧张，紧张得有些颤抖，因为他以前是个小白，第一次说 Love</span><br>    <span class="comments">// 几分钟之后. . .</span><br>    <span class="comments">// 女孩: 我愿意.</span><br>    Girl: I do.<br>    <span class="comments">// 男孩激动得不知所措. . .</span><br>    <span class="comments">// . . . . . .</span><br>    <span class="comments">// 2014-07-05 他们在一起了.</span><br><br>    <span class="comments">// 现在，我想说.</span><br>    Now, I want to say.<br>    <span class="comments">// 宝贝，我永远爱你 !</span><br>    Baby, I love you forever ! <br><br>    现在是我们在一起的第 <code>520</code> 天. </span></span></div></p>
+<p><div class="tip">表白很普通，甚至有些差劲，却是说出了藏在心里许久的爱慕之情。至此，感谢那些曾经帮助我，鼓励我表白的童鞋们，原谅我是个不善于表达的人，你们的好，我永远记得。同时也祝天下有情人终成眷属，和爱人相守一辈子。</div></p>
+<script>
+(function($) {
+    $.fn.typewriter = function() {
+        this.each(function() {
+            var $ele = $(this), str = $ele.html(), progress = 0;
+            $ele.html('');
+            var timer = setInterval(function() {
+                var current = str.substr(progress, 1);
+                if (current == '<') {
+                    progress = str.indexOf('>', progress) + 1;
+                } else {
+                    progress++;
+                }
+                $ele.html(str.substring(0, progress) + (progress & 1 ? '_' : ''));
+                if (progress >= str.length) {
+                    clearInterval(timer);
+                }
+            }, 75);
+        });
+        return this;
+    };
+})(jQuery);
+$(function(){
+    $(document).scrollTop(252)
+    var nowTime = new Date().getTime(),
+        startTime = (new Date('2014/07/05')).getTime(),
+        days = Math.ceil((nowTime - startTime)/1000/60/60/24) 
+    console.log(days)
+    $("#code code").html(days);
+    $("#code").typewriter();
+})
+</script>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;http://7xmxp1.com1.z0.glb.clouddn.com/default.css?1&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div id=&quot;code&quot;&gt;&lt;span class=&quot;comments&quot;&gt;/&amp;#42;&amp;#4
+    
+    </summary>
+    
+    
+      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://blog.ifzm.cn/2017/09/02/hello-world/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/hello-world/</id>
+    <published>2017-09-02T07:49:51.085Z</published>
+    <updated>2017-09-02T07:49:51.085Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div><div class="line">...</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+<ol>
+<li>Ordered List</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Table elements</th>
+<th style="text-align:center">Table elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Table elements</td>
+<td style="text-align:center">Table elements</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Some text</li>
+</ol>
+<p>Some text</p>
+<ul>
+<li>Unordered List</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Table elements</th>
+<th>Table elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Table elements</td>
+<td>Table elements</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://blog.ifzm.cn/2017/09/02/Ubuntu%2016.04%20TLS%20%E5%AE%89%E8%A3%85%20MySQL%20%E6%95%99%E7%A8%8B%E4%BB%A5%E5%8F%8A%E4%B8%AD%E9%80%94%E5%8F%AF%E8%83%BD%E4%BC%9A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
+    <id>http://blog.ifzm.cn/2017/09/02/Ubuntu 16.04 TLS 安装 MySQL 教程以及中途可能会遇到的坑/</id>
+    <published>2017-09-01T16:18:01.887Z</published>
+    <updated>2017-07-01T09:14:23.363Z</updated>
+    
+    <content type="html"><![CDATA[<h5 id="Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑"><a href="#Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑" class="headerlink" title="Ubuntu 16.04 TLS 安装 MySQL 教程以及中途可能会遇到的坑"></a>Ubuntu 16.04 TLS 安装 MySQL 教程以及中途可能会遇到的坑</h5><ol>
+<li><p>命令安装，会提示输入 <code>mysql</code> 的 <code>root</code> 账户的密码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">➜  ~  sudo apt-get install mysql-server</div><div class="line">➜  ~  sudo apt-get install mysql-client</div><div class="line">➜  ~  sudo apt-get install libmysqlclient-dev</div><div class="line">      </div><div class="line"># 中途遇到问题，通常可以通过下面的命令解决，如果还是有其他问题，请跳到最后看一些常见的问题解决</div><div class="line">➜  ~  sudo apt-get update</div><div class="line">➜  ~  sudo apt-get install -f</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果上面的命令都正确执行，则执行下面的命令确认是否成功（结果如果和下面的类似，就代表成功了）</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~  sudo netstat -tap | grep mysql</div><div class="line">tcp6       0      0 [::]:mysql              [::]:*                  LISTEN      7510/mysqld</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置远程访问（<strong>非必要</strong>）</p>
+<p>第一步，修改IP限制：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 执行下面的一条命令找到 bind-address = 127.0.0.1 并注释，修改为 # bind-address = 127.0.0.1</div><div class="line">➜  ~  vim /etc/mysql/my.cnf 或 sudo gedit /etc/mysql/my.cnf</div><div class="line"></div><div class="line"># 修改完成后重启 mysql</div><div class="line">➜  ~  sudo /etc/init.d/mysql restart</div></pre></td></tr></table></figure>
+<p>第二步，用户授权：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">➜  ~  mysql -uroot -p123456</div><div class="line"></div><div class="line">Welcome to the MySQL monitor...</div><div class="line"></div><div class="line"># *.*：第一个*代表数据库名；第二个*代表表名。这里的意思是所有数据库里的所有表都授权给用户。root：授予root账号</div><div class="line"># %：表示授权的用户IP可以指定，这里代表任意的IP地址都能访问MySQL数据库</div><div class="line"># 123456：表示分配账号对应的密码，这里密码自己替换成你的mysql root帐号密码</div><div class="line">mysql&gt; grant all on *.* to root@'%' identified by '123456' with grand option;</div><div class="line"># 刷新权限信息，也即是让我们所作的设置马上生效</div><div class="line">mysql&gt; flush privileges;</div><div class="line"># 退出</div><div class="line">mysql&gt; exit;</div></pre></td></tr></table></figure>
+</li>
+<li><p>常见问题集锦：</p>
+<ul>
+<li><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># 安装出现类似下面的情况</div><div class="line">...</div><div class="line">error processing mysql-server-5.7 (--configrue): 子进程 已安装 post-installation 脚本</div><div class="line">然而 mysql-server-5.7 尚未配置 ...</div><div class="line">...</div><div class="line">E: Sub-process /usr/bin/dpkg returned an error code (1)</div><div class="line"></div><div class="line"># 尝试执行下面的命令</div><div class="line">➜  ~  sudo rm /var/lib/mysql/ -R</div><div class="line">➜  ~  sudo rm /etc/mysql/ -R</div><div class="line">➜  ~  sudo apt-get autoremove mysql* --purge</div><div class="line">➜  ~  sudo apt-get remove apparmor</div><div class="line">➜  ~  sudo apt-get autoclean</div><div class="line"></div><div class="line"># 中途如果没有其他错误，则可以回到最上面的安装教程</div></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 卸载出现类似下面的情况</div><div class="line">...</div><div class="line">error processing mysql-server-5.7 (--purge): 子进程 已安装 pre-removal 脚本</div><div class="line">然而 mysql-server-5.7 尚未配置 ...</div><div class="line">...</div><div class="line">E: Sub-process /usr/bin/dpkg returned an error code (1)</div><div class="line">  </div><div class="line"># 请确认错误信息中是否包含 `missing LSB tags and overrides` 这类警告或错误，如果有，通常是自定义的开机启动脚本书写不规范导致的，需要找到对应的启动脚本，进行修改，下面以 `redis` 开启启动为例，没有填写 `BEGIN INIT INFO` - `END INIT INFO` 这一段,也是会出现无法彻底卸载或安装MySQL的原因之一...</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line"># chkconfig:   2345 90 10</div><div class="line"># description:  Redis is a persistent key-value database</div><div class="line">#</div><div class="line"># Simple Redis init.d script conceived to work on Linux systems</div><div class="line"># as it does use of the /proc filesystem.</div><div class="line">### BEGIN INIT INFO</div><div class="line"># Provides:          redis6379</div><div class="line"># Required-Start:    $local_fs $network</div><div class="line"># Required-Stop:     $local_fs</div><div class="line"># Default-Start:     2 3 4 5</div><div class="line"># Default-Stop:      0 1 6</div><div class="line"># Short-Description: redis6379</div><div class="line"># Description:       penavico redis 6379</div><div class="line">### END INIT INFO</div><div class="line"></div><div class="line">REDISPORT=6379</div><div class="line">EXEC=/usr/local/bin/redis-server</div><div class="line">CLIEXEC=/usr/local/bin/redis-cli</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+<p>​</p>
+</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h5 id=&quot;Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑&quot;&gt;&lt;a href=&quot;#Ubuntu-16-04-TLS-安装-MySQL-教程以及中途可能会遇到的坑&quot; class=&quot;headerlink&quot; title=&quot;Ubuntu 16.04 T
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Shadowsocks</title>
+    <link href="http://blog.ifzm.cn/2016/07/11/shadowsocks-course/"/>
+    <id>http://blog.ifzm.cn/2016/07/11/shadowsocks-course/</id>
+    <published>2016-07-11T14:06:00.000Z</published>
+    <updated>2016-07-16T11:37:05.214Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>想要访问 Google, Youtube, Facebook … 有免费的办法吗？ 让我来教你<br><a id="more"></a></p>
+</blockquote>
+<p>在大天朝，网民许多想做的事情都会受到限制，比如: 上 <code>Google</code> 查个资料？不行. . .，上 <code>Youtube</code> 看个视频？不行. . .如果有钱的话可以购买 <code>VPN</code>，<code>Shadowsocks</code> 代理等翻墙工具</p>
+<p>如果不想花钱，让我来教你免费使用 <code>Shadowsocks</code> 代理的办法。</p>
+<p>访问 <a href="http://www.ishadowsocks.com" target="_blank" rel="external">http://www.ishadowsocks.com</a>, 下载工具，支持多平台，Windows、Mac、Android、iPhone/iPad, 网站上都有教程一步步教你</p>
+<p>该网站提供三个免费的 <code>Shadowsocks</code> 账号以供使用，博主都试验过，查资料，下载资料，等等轻松应对，如果你网速可以的话，看视频也妥妥的。</p>
+<p>如果对网速要求比较高的话，还是建议使用付费版，各个渠道我就不在这里说了，各位 <code>Geek</code> 自己去摸索。</p>
+<p>上传一张效果图: (博主当前网速较差，实际效果根据使用者网速而定)<br><img src="http://7xmxp1.com1.z0.glb.clouddn.com/youtube.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;想要访问 Google, Youtube, Facebook … 有免费的办法吗？ 让我来教你&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="Geek" scheme="http://blog.ifzm.cn/tags/Geek/"/>
+    
+      <category term="Shadowsocks" scheme="http://blog.ifzm.cn/tags/Shadowsocks/"/>
+    
+      <category term="Ss" scheme="http://blog.ifzm.cn/tags/Ss/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MongoDB 使用 mongoose 时遇到的坑</title>
+    <link href="http://blog.ifzm.cn/2016/04/29/mongodb/"/>
+    <id>http://blog.ifzm.cn/2016/04/29/mongodb/</id>
+    <published>2016-04-29T09:26:00.000Z</published>
+    <updated>2016-05-03T07:20:56.100Z</updated>
+    
+    <content type="html"><![CDATA[<p>刚接触<code>mongodb</code>，在使用mongoose写Node example时，遇到的一些坑，记下来</p>
+<p>我直接在命令行写入一条数据，然后按照文档说明操作查询数据，发现始终查询不出数据，几经调试发现是collection name的原因。</p>
+<p>mongoose在执行操作时会把collection name变成复数形式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 这样定的的model在执行数据库操作时，会以name为users作为coll name，在测试时，如果直接用命令行插入数据，切记使用 db.users.insert || db.users.save</span></div><div class="line">mongoose.model(<span class="string">'User'</span>, UserSchema);</div></pre></td></tr></table></figure>
+<p>顺便记一下mongodb的一些常用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">// 直接使用此命令，查看mongodb支持哪些命令</div><div class="line">help </div><div class="line"></div><div class="line">// 查询当前数据库支持哪些方法、</div><div class="line">db.help() </div><div class="line"></div><div class="line">// 查看users表collection支持哪些方法</div><div class="line">db.users.help() </div><div class="line"></div><div class="line">// 查询所有数据库列表</div><div class="line">show dbs </div><div class="line"></div><div class="line">// 查看当前在那个数据库下</div><div class="line">db </div><div class="line"></div><div class="line">// 切换到test数据库下</div><div class="line">use test </div><div class="line"></div><div class="line">// 查看当前数据库下有哪些表（collection）</div><div class="line">show collections</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;刚接触&lt;code&gt;mongodb&lt;/code&gt;，在使用mongoose写Node example时，遇到的一些坑，记下来&lt;/p&gt;
+&lt;p&gt;我直接在命令行写入一条数据，然后按照文档说明操作查询数据，发现始终查询不出数据，几经调试发现是collection name的原因。&lt;/p
+    
+    </summary>
+    
+    
+      <category term="NodeJS" scheme="http://blog.ifzm.cn/tags/NodeJS/"/>
+    
+      <category term="mongoose" scheme="http://blog.ifzm.cn/tags/mongoose/"/>
+    
+      <category term="MongoDB" scheme="http://blog.ifzm.cn/tags/MongoDB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NodeJS + MongoDB + Express Example</title>
+    <link href="http://blog.ifzm.cn/2016/04/29/nodejs-mongodb-express/"/>
+    <id>http://blog.ifzm.cn/2016/04/29/nodejs-mongodb-express/</id>
+    <published>2016-04-29T09:26:00.000Z</published>
+    <updated>2016-04-29T09:41:22.507Z</updated>
+    
+    <content type="html"><![CDATA[<p><div class="tip">Java后端弱鸡一枚，喜欢追新技术，关注<code>NodeJS</code>两三年了，这次正式写点东西，后面会附上GitHub地址，先保密<code>(．Q．)</code></div><a id="more"></a>博主喜欢JS，也看好NodeJS，但由于工作原因，一直没有用NodeJS开发项目，闲暇也用NodeJS做过网页，不过那都是玩玩。</p>
+<p>废话不多说，首先例行介绍下三大杀器：</p>
+<ol>
+<li>Node.js是一个Javascript运行环境(runtime)，对Google V8引擎进行了封装，用于方便地搭建响应速度快、易于扩展的网络应用，使用事件驱动，非阻塞I/O 模型而得以轻量和高效，非常适合在分布式设备上运行的数据密集型的实时应用。</li>
+<li>Express是NodeJS的一个Web框架（开源项目，TJ大神作品，不过现在TJ大神去搞Go了，目前由<a href="http://strongloop.com/" target="_blank" rel="external">StrongLoop</a>赞助维护），先把比较有名的几个Node框架列出来，<a href="http://www.expressjs.com.cn/" target="_blank" rel="external">Express</a>，<a href="http://hapijs.com/" target="_blank" rel="external">Hapi</a>、<a href="http://koajs.com/" target="_blank" rel="external">Koa</a>-这个还是TJ大神的，原本博主准备使用Koa下手，由于Koa2还处于alpha，所以先用Express试水。当然，Express也是很强大的，只是相对Koa庞大了一点</li>
+<li>MongoDB属于文档型数据库，在NoSQL热潮里，风头最劲的莫过于MongoDB了</li>
+</ol>
+<p>接下来就是安装.准备工作（Windows 环境为例）：</p>
+<ol>
+<li>下载 <a href="http://www.nodejs.org/" target="_blank" rel="external">NodeJS</a>，按提示安装，打开 Cmd 输入<code>node -v</code> 检测是否安装成功并成功的配置了环境变量</li>
+<li>安装<code>npm</code>（模块管理工具），具体使用命令请自行Baidu或Google,目前npm是和Node安装包一起安装，请忽略此步骤</li>
+<li>安装<code>express</code>，这里使用4.x版本，全局安装 - <code>npm install -g express-generator</code>，本地安装 - <code>npm install express-generator</code> （3.x版本安装方式 <code>npm install -g express + 版本号</code>）</li>
+<li>下载<a href="https://www.mongodb.org/" target="_blank" rel="external">MongoDB</a>，按步骤安装，完成后进入 Cmd，cd 到安装目录的bin目录，输入<code>mongod --dbpath=&quot;mongodb安装目录\data&quot; --logpath=&quot;mongodb安装目录\log\log.txt&quot; --install --serviceName MongoDB --serviceDisplayName MongoDB</code>回车，然后在系统服务里启动这个服务。</li>
+</ol>
+<p>到这里准备工作就算完成了。</p>
+<p>接下来就是创建项目，开始动工了。 <code>2016-04-29 17:26</code></p>
+<p>….</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;div class=&quot;tip&quot;&gt;Java后端弱鸡一枚，喜欢追新技术，关注&lt;code&gt;NodeJS&lt;/code&gt;两三年了，这次正式写点东西，后面会附上GitHub地址，先保密&lt;code&gt;(．Q．)&lt;/code&gt;&lt;/div&gt;
+    
+    </summary>
+    
+    
+      <category term="NodeJS" scheme="http://blog.ifzm.cn/tags/NodeJS/"/>
+    
+      <category term="MongoDB" scheme="http://blog.ifzm.cn/tags/MongoDB/"/>
+    
+      <category term="JavaScript" scheme="http://blog.ifzm.cn/tags/JavaScript/"/>
+    
+      <category term="Express" scheme="http://blog.ifzm.cn/tags/Express/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>回忆2014，辞旧2015，迎新2016</title>
+    <link href="http://blog.ifzm.cn/2016/02/07/2015-2016/"/>
+    <id>http://blog.ifzm.cn/2016/02/07/2015-2016/</id>
+    <published>2016-02-07T15:00:07.000Z</published>
+    <updated>2016-02-29T03:20:23.562Z</updated>
+    
+    <content type="html"><![CDATA[<div class="tip"> 现在是 <code>2016-02-07 23:00:07</code> 除夕夜晚，我在【湖南省.岳阳市.临湘市】</div>
+
+<a id="more"></a>
+<p>现在是除夕夜，外面鞭炮齐鸣，过了今晚，明天就是传统春节了。</p>
+<p>在房间里，文笔不好的我，正在慢慢写着这篇博客. . .</p>
+<blockquote>
+<p>2014</p>
+</blockquote>
+<p>Newborn calves are not afraid of tigers. —Young people are fearless.</p>
+<blockquote>
+<p>2015</p>
+</blockquote>
+<p>It turns out, I’m just a noob.</p>
+<p>The society is very complicated, I So naive.</p>
+<p>Strive Coding…</p>
+<blockquote>
+<p>2016</p>
+</blockquote>
+<p>More and better …</p>
+<p>原本写了一大篇，结果后面都被我删掉了，有些事情过去也就过去了，不记也罢。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;div class=&quot;tip&quot;&gt; 现在是 &lt;code&gt;2016-02-07 23:00:07&lt;/code&gt; 除夕夜晚，我在【湖南省.岳阳市.临湘市】&lt;/div&gt;
+    
+    </summary>
+    
+    
+      <category term="Live" scheme="http://blog.ifzm.cn/tags/Live/"/>
+    
+  </entry>
+  
+</feed>
